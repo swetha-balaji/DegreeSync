@@ -65,9 +65,3 @@ module.exports = {
     calculateCumulativeGPA
 };
 
-
-// Export functions for use in other parts of the app
-module.exports = {
-    calculateSemesterGPA,
-    calculateCumulativeGPA
-};
