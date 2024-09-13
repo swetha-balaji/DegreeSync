@@ -1,3 +1,4 @@
+
 // Function to calculate Semester GPA
 function calculateSemesterGPA(grades, creditHours) {
     let totalQualityPoints = 0;
@@ -57,6 +58,13 @@ function calculateCumulativeGPA(semesters) {
     // Calculate cumulative GPA
     return totalQualityPoints / totalGPAHours;
 }
+
+// Export functions for use in other parts of the app
+module.exports = {
+    calculateSemesterGPA,
+    calculateCumulativeGPA
+};
+
 
 // Export functions for use in other parts of the app
 module.exports = {
