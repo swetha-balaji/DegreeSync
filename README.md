@@ -17,8 +17,51 @@ Node.js (v14.x or higher)
 MongoDB (for storing user data, grades, and GPA calculations)
 Git (for version control)
 
-*Insert full setup instructions here*
+To set up the project locally, follow these steps:
 
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/swetha-balaji/DegreeSync.git
+    ```
+
+2. **Install dependencies**:
+    Navigate to the project directory and install the required packages by running:
+    ```bash
+    npm install
+    ```
+
+3. **Environment Variables**:
+    Ensure that you set up the following environment variables in a `.env` file:
+    - `MONGO_URI` - The connection string for your MongoDB instance.
+    - `JWT_SECRET` - A secret key used for JWT authentication.
+
+4. **Start the application**:
+    You can start the server using the following command:
+    ```bash
+    npm start
+    ```
+    The application will be running at `http://localhost:3000`.
+
+5. **View in Browser**:
+    Open your browser and go to `http://localhost:3000` to interact with the GPA calculator.
+
+## Usage Details
+
+### Authentication:
+- Users can log in with their email and password.
+- Passwords are securely stored using hashing (bcrypt).
+- Authenticated users can access GPA calculation features.
+
+### GPA Calculation:
+- Input the credit hours and the grade (A, B, C, etc.) for each course.
+- The application multiplies the credit hours by the grade’s value (A = 4, B = 3, etc.) to compute quality points.
+- The semester GPA is calculated by dividing the total quality points by the total credit hours.
+
+### Routes:
+- `/` - Home page where users can input course data.
+- `/login` - Login page for user authentication.
+- `/protected` - A protected route accessible only to authenticated users.
+   
 ## Team Progress
 Sprint 1: Requirements Gathering and Core Algorithm Development
 In this sprint, the team focused on gathering the requirements and developing the core algorithm for GPA calculation. The main focus was:
