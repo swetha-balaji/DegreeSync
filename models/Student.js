@@ -11,7 +11,7 @@ const studentSchema = new Schema({
         required: true
     },
     studentid: {
-        type: String,
+        type: Number,
         required: true,
         unique: true
     },
@@ -24,6 +24,15 @@ const studentSchema = new Schema({
         required: true
     },
     advisor: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
         type: String,
         required: true
     }
