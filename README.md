@@ -33,7 +33,6 @@ To set up the project locally, follow these steps:
 3. **Environment Variables**:
     Ensure that you set up the following environment variables in a `.env` file:
     - `MONGO_URI` - The connection string for your MongoDB instance.
-    - `JWT_SECRET` - A secret key used for JWT authentication.
 
 4. **Start the application**:
     You can start the server using the following command:

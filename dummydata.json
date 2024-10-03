@@ -1,0 +1,28 @@
+[
+  {
+      "_id": {
+        "$oid": "66fdf0a77a5cb7d8ed7ff7ef"
+      },
+      "major": "Computer Science",
+      "classification": "Senior",
+      "studentid": 8081110095,
+      "student_name": "Connor Smith",
+      "concentration": "Software Engineering",
+      "advisor": "Bob Johnson",
+      "email": "csmith@charlotte.edu",
+      "password": "my-secret-password"
+  },
+  {
+    "_id": {
+      "$oid": "66fe0d9e7a5cb7d8ed7ff7f0"
+    },
+    "major": "Computer Science",
+    "classification": "Junior",
+    "studentid": 8041314572,
+    "student_name": "Jill Green",
+    "concentration": "Data Science",
+    "advisor": "Sam Donald",
+    "email": "jgreen@charlotte.edu",
+    "password": "password"
+  }
+]
