@@ -1,28 +1,15 @@
-[
-  {
-      "_id": {
-        "$oid": "66fdf0a77a5cb7d8ed7ff7ef"
-      },
-      "major": "Computer Science",
-      "classification": "Senior",
-      "studentid": 8081110095,
-      "student_name": "Connor Smith",
-      "concentration": "Software Engineering",
-      "advisor": "Bob Johnson",
-      "email": "csmith@charlotte.edu",
-      "password": "my-secret-password"
+[{
+  "_id": {
+    "$oid": "66ff67c8c3f80337aa17447f"
   },
-  {
-    "_id": {
-      "$oid": "66fe0d9e7a5cb7d8ed7ff7f0"
-    },
-    "major": "Computer Science",
-    "classification": "Junior",
-    "studentid": 8041314572,
-    "student_name": "Jill Green",
-    "concentration": "Data Science",
-    "advisor": "Sam Donald",
-    "email": "jgreen@charlotte.edu",
-    "password": "password"
-  }
-]
+  "major": "Computer Science",
+  "classification": "senior",
+  "studentid": 8084749301,
+  "student_name": "Connor Smith",
+  "concentration": "Web/Mobile Development and Software Engineering",
+  "degree_type": "BS",
+  "advisor": "Random Advisor",
+  "email": "csmith@charlotte.edu",
+  "password": "12345",
+  "__v": 0
+}]

@@ -57,9 +57,9 @@ To set up the project locally, follow these steps:
 - The semester GPA is calculated by dividing the total quality points by the total credit hours.
 
 ### Routes:
-- `/` - Home page where users can input course data.
-- `/login` - Login page for user authentication.
-- `/protected` - A protected route accessible only to authenticated users.
+- `/` - Home/Landing page where users can Login.
+- `/signup` - Signup page where users can sign up for an account.
+- `/dashboard` - A protected route accessible only to authenticated users, displaying grade data.
    
 ## Team Progress
 Sprint 1: Requirements Gathering and Core Algorithm Development
