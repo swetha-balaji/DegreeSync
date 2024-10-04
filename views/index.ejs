@@ -3,9 +3,9 @@
         <img alt="woodward image" src="/images/charlotte.jpg" class="h-3/4 w-3/4" />
     </div>
     <form action="/login" method="post" class="flex flex-col items-center justify-between w-1/2 h-2/5 mx-auto">
-        <div class="flex flex-col justify-evenly flex-1 w-full">
-            <h1 class="text-3xl text-[#075640] font-bold w-full">Sign in with your<br/> UNC Charlotte Credentials</h1>
-            <input type="email" required class="p-3 text-lg font-bold border-2 rounded-lg <%= err ? 'border-red-500' : 'border-black' %>" placeholder="example@charlotte.edu" title="Student Email" name="email"/>
+        <div class="flex flex-col justify-center gap-3 flex-1 w-full">
+            <h1 class="text-3xl text-[#075640] font-bold w-full">Sign in with your<br/> UNCC Credentials</h1>
+            <input type="email" required class="p-3 text-lg font-bold border-2 rounded-lg <%= err ? 'border-red-500' : 'border-black' %>" placeholder="example@charlotte.edu" pattern="[a-zA-Z0-9._%+-]+@charlotte\.edu" title="Email must contain @charlotte.edu" name="email"/>
             <input type="password" required class="p-3 text-lg font-bold border-2 rounded-lg <%= err ? 'border-red-500' : 'border-black' %>" placeholder="password" name="password"/>
         </div>
         <div class="flex flex-col items-center gap-4">

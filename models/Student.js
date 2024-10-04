@@ -23,6 +23,10 @@ const studentSchema = new Schema({
         type: String,
         required: true
     },
+    degree_type: {
+        type: String,
+        required: true
+    },
     advisor: {
         type: String,
         required: true
