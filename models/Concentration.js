@@ -1,0 +1,2 @@
+const concentrationSchema = new Schema({
+});
