@@ -1,0 +1,37 @@
+<div class="flex h-full justify-center items-center">
+    <form action="/signup" method="post" class="flex flex-col gap-3 p-12 rounded-lg">
+        <h1 class="font-bold text-3xl text-[#075640]">Register here for a<br>UNCC Student Account</h1>
+        <div class="flex gap-3">
+            <input type="text" name="firstName" required placeholder="First Name" class="p-2 font-bold border-2 border-[#075640] rounded-lg text-xl" pattern="[a-zA-Z]+"/>
+            <input type="text" name="lastName" required placeholder="Last Name" class="p-2 border-2 font-bold border-[#075640] rounded-lg text-xl" pattern="[a-zA-Z]+"/>
+        </div>
+        <input type="email" name="email" required pattern="[a-zA-Z0-9]+@charlotte\.edu" placeholder="email@charlotte.edu" class="font-bold p-2 border-2 border-[#075640] rounded-lg text-xl <%= err ? 'border-red-500' : 'border-black' %>"/>
+        <% if (err) { %>
+            <h1 class="text-red-500 font-semibold text-center">A user with that email already exists.</h1>
+        <% } %>
+        <input type="password" name="password" required placeholder="password" class="p-2 border-2 text-xl border-[#075640] font-bold rounded-lg" />
+        <select required name="classification" name="classification" class="p-1 text-center">
+            <option selected disabled value="">--Classification--</option>
+            <option value="freshman">Freshman</option>
+            <option value="sophomore">Sophmore</option>
+            <option value="junior">Junior</option>
+            <option value="senior">Senior</option>
+        </select>
+        <select required name="concentration" class="p-1 text-center">
+            <option selected disabled value="">--Concentration--</option>
+            <option disabled value="">&dArr; B.S. &dArr;</option>
+            <option value="AI, Robotics and Gaming-BS">AI, Robotics and Gaming</option>
+            <option value="Bioinformatics-BS">Bioinformatics</option>
+            <option value="Cybersecurity-BS">Cybersecurity</option>
+            <option value="Data Science-BS">Data Science</option>
+            <option value="Systems and Networks-BS">Systems and Networks</option>
+            <option value="Web/Mobile Development and Software Engineering-BS">Web/Mobile Development and Software Engineering</option>
+            <option disabled value="">&dArr; B.A. &dArr;</option>
+            <option value="Human-Computer Interaction-BA">Human-Computer Interaction</option>
+            <option value="Information Technology-BA">Information Technology</option>
+            <option value="Bioinformatics-BA">Bioinformatics</option>
+        </select>
+        <button type="submit" class="bg-[#075640] px-3 py-2 text-white w-1/2 mx-auto rounded-lg text-2xl">Register</button>
+        <p class="text-center text-md">Already have an account? <a href="/" class="text-blue-700 hover:underline">Login</a></p>
+    </form>
+</div>

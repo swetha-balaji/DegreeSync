@@ -1,0 +1,15 @@
+[{
+  "_id": {
+    "$oid": "66ff67c8c3f80337aa17447f"
+  },
+  "major": "Computer Science",
+  "classification": "senior",
+  "studentid": 8084749301,
+  "student_name": "Connor Smith",
+  "concentration": "Web/Mobile Development and Software Engineering",
+  "degree_type": "BS",
+  "advisor": "Random Advisor",
+  "email": "csmith@charlotte.edu",
+  "password": "12345",
+  "__v": 0
+}]
