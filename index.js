@@ -7,7 +7,7 @@ const app = express();
 const mongoose = require('mongoose');
 const Student = require('./models/Student');
 
-//mongoose.connect("mongodb+srv://mongodB:eqJtPNhRbA4asm8n@cluster0.skb4r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
+mongoose.connect("mongodb+srv://mongodB:eqJtPNhRbA4asm8n@cluster0.skb4r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
 
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true}));
