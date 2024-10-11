@@ -1,3 +1,148 @@
-<div>
-    
+<div class="p-[20px]">
+    <div style="display: flex; justify-content: space-between; padding: 20px; background-color: #e0e0e0; padding: 20px;">
+        <div>
+            <p>STUDENT NAME: <%= student.student_name %></p>
+            <p>STUDENT ID: <%= student.studentid %></p>
+            <p>CLASSIFICATION: <%= student.classification %></p>
+            <p>MAJOR: Computer Science</p>
+            <p>CONCENTRATION: <%= student.concentration %></p>
+            <p>DEGREE TYPE: <%= student.degree_type %></p>
+            <p>ADVISOR: <%= student.advisor %></p>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 100px; height: 100px; border-radius: 50%; background-color: lightgrey; display: inline-block; position: relative;">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px;">50%</div>
+            </div>
+            <p>Degree Completion</p>
+        </div>
+    </div>
+
+    <!-- General Education and Major Information Section -->
+    <div style="padding: 20px;">
+        <h2>General Education:</h2>
+        <ul>
+            <li>✔ DEVELOPMENT OF FUNDAMENTAL SKILLS OF INQUIRY</li>
+            <li>✔ INQUIRY OF THE SCIENCES</li>
+            <li>✔ THEMES OF LIBERAL EDUCATION FOR PRIVATE AND PUBLIC LIFE</li>
+            <li>✔ CRITICAL THINKING AND COMMUNICATION</li>
+        </ul>
+
+        <h2>Major in Computer Science:</h2>
+        <ul>
+            <li>✔ CORE COURSES</li>
+            <li>✔ Communication Skills</li>
+        </ul>
+    </div>
+
+    <table style="width: 100%; text-align: left; padding: 20px;">
+        <thead>
+            <tr style="font-weight: bold;">
+                <th>Course</th>
+                <th>Title</th>
+                <th>Grade</th>
+                <th>Credit Hours</th>
+                <th>Term</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <!-- GPA Calculation Section -->
+    <h2>Calculate Your Semester GPA</h2>
+    <form id="gpaForm">
+        <table style="width: 100%; margin: 20px;">
+            <tr>
+                <th>Course Subject/No. (Optional)</th>
+                <th>Credit Hours</th>
+                <th>Grade</th>
+                <th>Quality Points</th>
+            </tr>
+            <!-- Row 1 -->
+            <tr>
+                <td><input type="text" name="course1" placeholder="Course 1"></td>
+                <td><input type="number" name="credit1" min="0" step="1" placeholder="Credit Hours" class="credits"></td>
+                <td><input type="text" name="grade1" placeholder="Grade (A, B, C...)" class="grades"></td>
+                <td><input type="text" name="quality1" placeholder="Calculated Quality Points" readonly class="quality-points"></td>
+            </tr>
+            <!-- Row 2 -->
+            <tr>
+                <td><input type="text" name="course2" placeholder="Course 2"></td>
+                <td><input type="number" name="credit2" min="0" step="1" placeholder="Credit Hours" class="credits"></td>
+                <td><input type="text" name="grade2" placeholder="Grade" class="grades"></td>
+                <td><input type="text" name="quality2" placeholder="Calculated Quality Points" readonly class="quality-points"></td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </table>
+
+        <div>
+            <label for="totalQuality">Total Quality Points:</label>
+            <input type="text" id="totalQuality" name="totalQuality" readonly>
+        </div>
+        <div>
+            <label for="totalGPAHours">Total GPA Hours:</label>
+            <input type="text" id="totalGPAHours" name="totalGPAHours" readonly>
+        </div>
+        <div>
+            <label for="gpa">GPA:</label>
+            <input type="text" id="gpa" name="gpa" readonly>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Link to GPA Algorithm JavaScript -->
+    <script src="/path-to-js/gpa-algorithms.js"></script>
+
+    <!-- Script to Dynamically Update GPA -->
+    <script>
+        document.querySelectorAll('.grades, .credits').forEach(input => {
+            input.addEventListener('input', calculateGPA);
+        });
+
+        function calculateGPA() {
+            const credits = document.querySelectorAll('.credits');
+            const grades = document.querySelectorAll('.grades');
+            const qualityPointsFields = document.querySelectorAll('.quality-points');
+
+            let totalQualityPoints = 0;
+            let totalCredits = 0;
+
+            credits.forEach((creditInput, index) => {
+                const credit = parseFloat(creditInput.value) || 0;
+                const grade = grades[index].value.toUpperCase();
+
+                // Calculate quality points (credit hours * grade point value)
+                const gradePoints = gradeToPoints(grade);
+                const qualityPoints = gradePoints * credit;
+
+                if (!isNaN(qualityPoints)) {
+                    qualityPointsFields[index].value = qualityPoints.toFixed(2);
+                }
+
+                totalQualityPoints += qualityPoints;
+                totalCredits += credit;
+            });
+
+            // Update total quality points and GPA hours
+            document.getElementById('totalQuality').value = totalQualityPoints.toFixed(2);
+            document.getElementById('totalGPAHours').value = totalCredits.toFixed(2);
+
+            // Calculate GPA
+            const gpa = totalQualityPoints / totalCredits || 0;
+            document.getElementById('gpa').value = gpa.toFixed(2);
+        }
+
+        // Function to convert grade to points
+        function gradeToPoints(grade) {
+            switch(grade) {
+                case 'A': return 4.0;
+                case 'B': return 3.0;
+                case 'C': return 2.0;
+                case 'D': return 1.0;
+                case 'F': return 0;
+                default: return 0;
+            }
+        }
+    </script>
 </div>
