@@ -1,4 +1,5 @@
 const Student = require("../models/Student");
+const Course = require("../models/Course");
 
 // Constants used as lower and upper bounds for generating a student ID
 const MIN = 8080000000;
@@ -84,9 +85,21 @@ exports.getDashboardPage = async(req, res)=>{
     }
 
     let student = await Student.findOne({ studentid: req.session.userId }).exec();
+    let courses = await Course.find({ concentration: student.concentration }).exec();
 
-    res.render('dashboard', { isAuthorized: true, student: student });
+    res.render('dashboard', { isAuthorized: true, student: student, courses: courses });
 }
+
+exports.getCourses = async (req, res) => {
+    if (!req.session.userId) {
+        res.redirect('/');
+        return;
+    }
+
+    let student = await Student.findOne({ studentid: req.session.userId }).exec();
+    let courses = await Course.find({ concentration: student.concentration }).exec();
+    res.render('dashboard', { isAuthorized: true, student: student, courses: courses });
+};
 
 exports.logout = (req, res)=>{
     if (!req.session.userId) {

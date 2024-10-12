@@ -34,6 +34,30 @@
         </ul>
     </div>
 
+    
+    <h2>Courses for <%= student.concentration %>:</h2>
+    
+    <table style="width: 100%; text-align: left; padding: 20px;">
+        <thead>
+            <tr style="font-weight: bold;">
+                <th>Course</th>
+                <th>Credits</th>
+                <th>Grade Obtained</th>
+                <th>Future Grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% courses.forEach(course => { %>
+                <tr>
+                    <td><%= course.name %></td>
+                    <td><%= course.credits %></td>
+                    <td><%= course.grade_obtained %></td>
+                    <td><%= course.future_grade %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
     <table style="width: 100%; text-align: left; padding: 20px;">
         <thead>
             <tr style="font-weight: bold;">

@@ -2,6 +2,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const courseSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    concentration: {
+        type: String,
+        required: true
+    },
     prereq: {
         type: String,
         required: true
