@@ -10,6 +10,8 @@ const Student = require('./models/Student');
 mongoose.connect("mongodb+srv://mongodB:eqJtPNhRbA4asm8n@cluster0.skb4r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
 // mongoose.connect('mongodb://localhost:27017/degreesync');
 
+// GIT Immersion HW - Connor
+
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true}));
 app.use(session({
