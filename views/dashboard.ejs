@@ -1,70 +1,49 @@
-
-
-<div style="display: flex; justify-content: space-between; padding: 20px; background-color: #e0e0e0; margin: 20px;">
-    <div>
-        <p>STUDENT NAME: <%= student.student_name %></p>
-        <p>STUDENT ID: <%= student.studentid %></p>
-        <p>CLASSIFICATION: <%= student.classification %></p>
-        <p>MAJOR: <%= student.major %></p>
-        <p>CONCENTRATION: <%= student.concentration %></p>
-        <p>DEGREE TYPE: <%= student.degree_type %></p>
-        <p>ADVISOR: <%= student.advisor %></p>
-    </div>
-    <div style="text-align: center;">
-        <div style="width: 100px; height: 100px; border-radius: 50%; background-color: lightgrey; display: inline-block; position: relative;">
-            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px;">50%</div>
+<div>
+    <div style="display: flex; justify-content: space-between; padding: 20px; background-color: #e0e0e0; margin: 20px;">
+        <div>
+            <p>STUDENT NAME:</p>
+            <p>STUDENT ID:</p>
+            <p>CLASSIFICATION:</p>
+            <p>MAJOR: Computer Science</p>
+            <p>CONCENTRATION:</p>
+            <p>DEGREE TYPE:</p>
+            <p>ADVISOR:</p>
         </div>
-        <p>Degree Completion :) </p>
+        <div style="text-align: center;">
+            <div style="width: 100px; height: 100px; border-radius: 50%; background-color: lightgrey; display: inline-block; position: relative;">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px;">50%</div>
+            </div>
+            <p>Degree Completion</p>
+        </div>
     </div>
+    <div style="padding: 20px;">
+        <h2>General Education:</h2>
+        <ul>
+            <li>✔ DEVELOPMENT OF FUNDAMENTAL SKILLS OF INQUIRY</li>
+            <li>✔ INQUIRY OF THE SCIENCES</li>
+            <li>✔ THEMES OF LIBERAL EDUCATION FOR PRIVATE AND PUBLIC LIFE</li>
+            <li>✔ CRITICAL THINKING AND COMMUNICATION</li>
+        </ul>
+        
+        <h2>Major in Computer Science:</h2>
+        <ul>
+            <li>✔ CORE COURSES</li>
+            <li>✔ Communication Skills</li>
+        </ul>
+    </div>
+
+    <table style="width: 100%; text-align: left; margin: 20px;">
+        <thead>
+            <tr style="font-weight: bold;">
+                <th>Course</th>
+                <th>Title</th>
+                <th>Grade</th>
+                <th>Credit Hours</th>
+                <th>Term</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    
 </div>
-
-<div style="padding: 20px;">
-    <h2>General Education:</h2>
-    <div style="display: flex;">
-        <div style="flex: 1;">
-            <ul>
-                <li>✔ DEVELOPMENT OF FUNDAMENTAL SKILLS OF INQUIRY</li>
-                <li>✔ INQUIRY OF THE SCIENCES</li>
-                <li>✔ THEMES OF LIBERAL EDUCATION FOR PRIVATE AND PUBLIC LIFE</li>
-                <li>✔ CRITICAL THINKING AND COMMUNICATION</li>
-            </ul>
-        </div>
-
-        <div style="flex: 3; margin-left: 20px;">
-            <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr>
-                        <th>Course</th>
-                        <th>Title</th>
-                        <th>Grade</th>
-                        <th>Credit Hours</th>
-                        <th>Term</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>ITSC 1212</td>
-                        <td>Introduction to Computer Science I</td>
-                        <td>A</td>
-                        <td>3</td>
-                        <td>Fall 2023</td>
-                    </tr>
-                    <tr>
-                        <td>ITSC 1213</td>
-                        <td>Introduction to Computer Science II</td>
-                        <td>B</td>
-                        <td>3</td>
-                        <td>Spring 2023</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <h2>Major in <%= student.major %>:</h2>
-    <ul>
-        <li>✔ CORE COURSES</li>
-        <li>✔ Communication Skills</li>
-    </ul>
-</div>
-
