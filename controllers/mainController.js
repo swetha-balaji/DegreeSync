@@ -5,6 +5,21 @@ const Course = require("../models/Course");
 const MIN = 8080000000;
 const MAX = 8089999999;
 
+function generateCredits(classification) {
+    switch (classification) {
+        case 'Freshman':
+            return Math.floor(Math.random() * 30); // 0 to 29 credits
+        case 'Sophomore':
+            return Math.floor(Math.random() * 30) + 30; // 30 to 59 credits
+        case 'Junior':
+            return Math.floor(Math.random() * 30) + 60; // 60 to 89 credits
+        case 'Senior':
+            return Math.floor(Math.random() * 31) + 90; // 90 to 120 credits
+        default:
+            return 0;
+    }
+}
+
 exports.getHomePage = (req, res) =>{
 
     if (req.session.userId) {
@@ -60,12 +75,13 @@ exports.register = async(req, res)=>{
 
     // Generate random 808 number to be student id, 
     let studentId = Math.floor((Math.random() * (MAX - MIN) + MIN));
-
+    let credits = generateCredits(classification);
     let newStudent = await Student.create({
         major: 'Computer Science',
         classification: classification,
         studentid: studentId,
         student_name: firstName + ' ' + lastName,
+        credits: credits,
         advisor: "Random Advisor",
         concentration: conc,
         degree_type: degree,
