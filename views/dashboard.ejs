@@ -34,41 +34,44 @@
     </div>
 
     
-    <h2>Courses for <%= student.concentration %>:</h2>
+    <h2 class="px-[20px]">Courses for <%= student.concentration %>:</h2>
     
-    <table style="width: 100%; text-align: left; padding: 20px;">
-        <thead>
-            <tr style="font-weight: bold;">
-                <th>Course</th>
-                <th>Credits</th>
-                <th>Grade Obtained</th>
-                <th>Future Grade</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% courses.forEach(course => { %>
-                <tr>
-                    <td><%= course.name %></td>
-                    <td><%= course.credits %></td>
-                    <td><%= course.grade_obtained %></td>
-                    <td><%= course.future_grade %></td>
+    <div class="px-[20px]">
+        <table class="table-fixed" style="width: 100%; text-align: left;">
+            <thead>
+                <tr style="font-weight: bold;">
+                    <th>Course</th>
+                    <th>Credit Hours</th>
+                    <th>Grade Obtained</th>
+                    <th>Future Grade</th>
                 </tr>
-            <% }) %>
-        </tbody>
-    </table>
-
-    <table style="width: 100%; text-align: left; padding: 20px;">
-        <thead>
-            <tr style="font-weight: bold;">
-                <th>Course</th>
-                <th>Title</th>
-                <th>Grade</th>
-                <th>Credit Hours</th>
-                <th>Term</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <% courses.forEach(course => { %>
+                    <tr>
+                        <td><%= course.name %></td>
+                        <td><%= course.credits %></td>
+                        <td><%= course.grade_obtained %></td>
+                        <td><%= course.future_grade %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <div class="px-[20px]">
+        <table class="table-fixed" style="width: 100%; text-align: left; padding: 20px;">
+            <thead>
+                <tr style="font-weight: bold;">
+                    <th>Course</th>
+                    <th>Title</th>
+                    <th>Grade</th>
+                    <th>Credit Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
     
 </div>
