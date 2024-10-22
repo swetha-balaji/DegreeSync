@@ -5,10 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DegreeSync</title>
     <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind Import -->
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" /> <!-- FontAwesome Import -->
 </head>
-<body class="h-screen flex flex-col">
-    <%- include('../partials/header.ejs') %>
-    <main class="flex-1"><%- body %></main>
-    <%- include('../partials/footer.ejs') %>
+<body class="h-screen <%= isAuthorized ? 'grid grid-cols-5 grid-rows-11' : 'flex flex-col' %>">
+    <%- include ('../partials/header.ejs') %>
+    <main class="<%= isAuthorized ? 'row-start-2 col-start-1 col-span-4 row-span-11 overflow-y-scroll' : 'flex-1' %>">
+        <%- body %>
+    </main>
+    <%- include ('../partials/sidebar.ejs') %>
 </body>
 </html>
