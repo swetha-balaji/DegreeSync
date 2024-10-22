@@ -74,7 +74,6 @@ exports.register = async(req, res)=>{
     });
 
     newStudent.save();
-
     res.redirect('/')
 }
 
@@ -87,7 +86,13 @@ exports.getDashboardPage = async(req, res)=>{
     let student = await Student.findOne({ studentid: req.session.userId }).exec();
     let courses = await Course.find({ concentration: student.concentration }).exec();
 
-    res.render('dashboard', { isAuthorized: true, student: student, courses: courses });
+    if (req.query.whatif) {
+        if (req.query.whatif === 'true')
+            return res.render('dashboard', { isAuthorized: true, student: student, courses: courses, whatif: true })
+        return res.redirect('/dashboard')
+    }
+
+    res.render('dashboard', { isAuthorized: true, student: student, courses: courses, whatif: false });
 }
 
 exports.getCourses = async (req, res) => {
