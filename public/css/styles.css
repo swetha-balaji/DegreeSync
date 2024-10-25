@@ -3,3 +3,7 @@ option {
     text-decoration: none;
     color: #075640;
 }
+
+select:focus {
+    outline: none;
+}
