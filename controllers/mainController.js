@@ -1,5 +1,6 @@
 const Student = require("../models/Student");
 const Course = require("../models/Course");
+const StudentCourse = require("../models/StudentCourse");
 
 // Constants used as lower and upper bounds for generating a student ID
 const MIN = 8080000000;
@@ -83,17 +84,39 @@ exports.getDashboardPage = async(req, res)=>{
         return;
     }
 
-    let student = await Student.findOne({ studentid: req.session.userId }).exec();
-    let courses = await Course.find({ concentration: student.concentration }).exec();
+    try {
+        let student = await Student.findOne({ studentid: req.session.userId }).exec();
+        let concentrationCourses = await Course.find({ concentration: student.concentration }).exec();
+        let enrolledCourses = await StudentCourse.find({ student: student._id }).populate('course').exec();
 
-    if (req.query.whatif) {
-        if (req.query.whatif === 'true')
-            return res.render('dashboard', { isAuthorized: true, student: student, courses: courses, whatif: true })
-        return res.redirect('/dashboard')
+        const enrolledCoursesMap = new Map();
+        enrolledCourses.forEach((sc) => {
+            enrolledCoursesMap.set(sc.course._id.toString(), sc);
+        });
+
+        const coursesWithGrades = concentrationCourses.map((course) => {
+            const enrolledData = enrolledCoursesMap.get(course._id.toString());
+            return {
+                ...course._doc,
+                grade_obtained: enrolledData ? enrolledData.grade_obtained : "-",
+                future_grade: enrolledData ? enrolledData.future_grade : ""
+            };
+        });
+
+        const whatif = req.query.whatif === 'true';
+
+        res.render('dashboard', {
+            isAuthorized: true,
+            student: student,
+            courses: coursesWithGrades,
+            whatif: whatif 
+        });
+
+    } catch (error) {
+        console.error("Error loading dashboard:", error);
+        res.status(500).send("Server Error");
     }
-
-    res.render('dashboard', { isAuthorized: true, student: student, courses: courses, whatif: false });
-}
+};
 
 exports.getCourses = async (req, res) => {
     if (!req.session.userId) {

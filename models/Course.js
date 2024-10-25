@@ -6,10 +6,6 @@ const courseSchema = new Schema({
         type: String,
         required: true
     },
-    concentration: {
-        type: String,
-        required: true
-    },
     prereq: {
         type: String,
         required: true
@@ -22,18 +18,14 @@ const courseSchema = new Schema({
         type: String,
         required: true,
     },
-    grade_obtained: {
-        type: String,
-        required: true
-    },
-    future_grade: {
-        type: String,
-        required: true
-    },
     credits: {
         type: Number,
         required: true
-    }
+    },
+    concentration: {
+        type: [String],
+        required: true
+    },
 });
 
 module.exports = mongoose.model('Course', courseSchema);
