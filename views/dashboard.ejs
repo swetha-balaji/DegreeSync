@@ -7,23 +7,43 @@
 
 <div class="p-[20px]">
     <!-- Student Information and Degree Completion Section -->
+    <% let completionPercentage = Math.floor((student.credits / 120) * 100); %>
     <div style="display: flex; justify-content: space-between; background-color: #e0e0e0; padding: 20px;">
         <div>
-            <p>STUDENT NAME:</p>
-            <p>STUDENT ID:</p>
-            <p>CLASSIFICATION:</p>
-            <p>MAJOR: Computer Science</p>
-            <p>CONCENTRATION:</p>
-            <p>DEGREE TYPE:</p>
-            <p>ADVISOR:</p>
+            <p><b>Student Name:</b> <%= student.student_name %></p>
+            <p><b>Major:</b> <%= student.major %></p>
+            <p><b>Concentration:</b> <%= student.concentration %></p>
+            <p><b>Degree Type:</b> <%= student.degree_type %></p>
+            <p><b>Advisor:</b> <%= student.advisor %></p>
+            <p><b>Credits:</b> <%= student.credits %></p>
+            <p><b>Student Email:</b> <%= student.email %></p>
+            <p><b>Classification:</b> <%= student.classification %></p>
+            <p><b>Student ID:</b> <%= student.studentid %></p>
         </div>
         <div style="text-align: center;">
-            <div style="width: 100px; height: 100px; border-radius: 50%; background-color: lightgrey; display: inline-block; position: relative;">
-                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px;">50%</div>
+            <div style="
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                background: conic-gradient(#00b300 <%= completionPercentage %>%, lightgrey <%= completionPercentage %>%);
+                display: inline-block;
+                position: relative;
+            ">
+                <div style="
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    font-size: 20px;
+                    color: #333;
+                ">
+                    <%= completionPercentage %>%
+                </div>
             </div>
             <p>Degree Completion</p>
         </div>
     </div>
+    
 
     <!-- General Education and Major Information Section -->
     <div style="padding: 20px;">
