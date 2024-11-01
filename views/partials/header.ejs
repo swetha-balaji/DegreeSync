@@ -1,11 +1,5 @@
-<header class="h-[50px] bg-[#075640] flex items-center justify-between gap-3">
-    <a href="/"><h1 class="pl-4 font-bold text-2xl text-white hover:cursor-pointer">DegreeSync</h1></a> <!-- Reduced text size -->
-    <% if (isAuthorized) { %>
-        <div class="flex items-center gap-4">
-            <h1 class="font-semibold text-lg text-white">Welcome, <%= student.student_name %> (ID: <%= student.studentid %>)</h1> <!-- Dynamic welcome message -->
-        </div>
-        <form action="/logout" method="post" class="p-4">
-            <button type="submit" class="p-4 text-white font-bold text-lg hover:bg-white hover:text-[#075640] transition-all duration-300">Logout</button> <!-- Added hover effect -->
-        </form>
-    <% } %>
-</header>
+<% if (isAuthorized) { %>
+<div class="bg-[#075640] col-start-1 row-start-1 col-span-4 row-span-1 gap-3 flex items-center">
+    <a href="/dashboard"><img alt="header logo" src="/images/DashL.png" class="h-[50px] w-auto pl-4"/></a>
+</div>
+<% } %>

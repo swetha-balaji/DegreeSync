@@ -1,6 +1,13 @@
-<div>
+<div class="flex">
+    <a href="/dashboard" class="py-2 text-center w-[125px] text-[#075640] font-bold <%= whatif ? '' : 'border-b-2 border-[#075640]' %> hover:bg-slate-100">Academic</a>
+    <a href="/dashboard?whatif=true" class="py-2 text-center w-[125px] text-[#075640] font-bold <%= whatif ? 'border-b-2 border-[#075640]' : '' %> hover:bg-slate-100">What-if</a>
+</div>
+
+<% if (!whatif) { %>
+
+<div class="p-[20px]">
     <!-- Student Information and Degree Completion Section -->
-    <div style="display: flex; justify-content: space-between; padding: 20px; background-color: #e0e0e0; margin: 20px;">
+    <div style="display: flex; justify-content: space-between; background-color: #e0e0e0; padding: 20px;">
         <div>
             <p>STUDENT NAME:</p>
             <p>STUDENT ID:</p>
@@ -35,9 +42,9 @@
         </ul>
     </div>
 
-    <h2 class="px-[20px]">Courses for <%= student.concentration %>:</h2>
+    <h2>Courses for <%= student.concentration %>:</h2>
     
-    <div class="px-[20px]">
+    <div>
         <table class="table-fixed" style="width: 100%; text-align: left;">
             <thead>
                 <tr style="font-weight: bold;">
@@ -59,43 +66,13 @@
             </tbody>
         </table>
     </div>
-    <br/>
-    <div class="px-[20px]">
-        <table class="table-fixed" style="width: 100%; text-align: left; padding: 20px;">
-            <thead>
-                <tr style="font-weight: bold;">
-                    <th>Course</th>
-                    <th>Title</th>
-                    <th>Grade</th>
-                    <th>Credit Hours</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        </div>
-    
+
+
     </div>
-
-    <!-- Course Table -->
-    <table style="width: 100%; text-align: left; margin: 20px;">
-        <thead>
-            <tr style="font-weight: bold;">
-                <th>Course</th>
-                <th>Title</th>
-                <th>Grade</th>
-                <th>Credit Hours</th>
-                <th>Term</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
     <!-- GPA Calculation Section -->
-    <h2>Calculate Your Semester GPA</h2>
-    <form id="gpaForm">
-        <table style="width: 100%; margin: 20px;">
+    <h2 class="p-[20px]">Calculate Your Semester GPA</h2>
+    <form id="gpaForm" class="p-[20px]">
+        <table style="width: 100%;">
             <tr>
                 <th>Course Subject/No. (Optional)</th>
                 <th>Credit Hours</th>
@@ -136,7 +113,7 @@
     </form>
 
     <!-- Link to GPA Algorithm JavaScript -->
-    <script src="/path-to-js/gpa-algorithms.js"></script>
+    <script src="/js/gpa-algorithms.js"></script>
 
     <!-- Script to Dynamically Update GPA -->
     <script>
@@ -190,3 +167,60 @@
         }
     </script>
 </div>
+
+<% } else { %>
+<div class="p-[20px] flex gap-4">
+    <div class="flex gap-2 items-center">
+        <i class="fa-solid fa-circle-check text-[#075640]"></i>
+        <h1 class="text-[#075640]">Completed</h1>
+    </div>
+    <div class="flex gap-2 items-center">
+        <i class="fa-solid fa-circle-half-stroke text-blue-800"></i>
+        <h1 class="text-[#075640]">In-progress</h1>
+    </div>
+</div>
+<div class="p-[20px] flex justify-center text-white">
+    <div class="w-11/12 bg-[#075640] rounded-lg p-4">
+        <h1 class="text-2xl font-semibold">Progress</h1>
+        <form action="/dashboard" method="get">
+            <div class="flex gap-4 p-2">
+                <div>
+                    <p class="italic">Catalog Year *</p>
+                    <input disabled class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" value="2024-2025" />
+                </div>
+                <div>
+                    <p class="italic">Degree *</p>
+                    <input class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" type="text" disabled value="<%= student.degree_type === 'BS' ? 'Bachelor Of Science' : 'Bachelor of Arts'%>" />
+                </div>
+            </div>
+            <div class="flex gap-4 p-2">
+                <div>
+                    <p class="italic">Program *</p>
+                    <select class="px-2 py-2 w-[280px] rounded-lg bg-[#075640] border-2 border-white truncate">
+                        <option>AI, Robotics and Gaming - B.S.</option>
+                        <option>Bioinformatics - B.S.</option>
+                        <option>Cybersecurity - B.S.</option>
+                        <option>Data Science - B.S.</option>
+                        <option>Systems and Networks - B.S.</option>
+                        <option>Web/Mobile Development and Software Engineering - B.S.</option>
+                        <option>Human-Computer Interaction - B.A.</option>
+                        <option>Information Technology - B.A.</option>
+                        <option>Bioinformatics - B.A.</option>
+                    </select>
+                </div>
+                <div>
+                    <p class="italic">College *</p>
+                    <input class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" type="text" disabled value="Computing & Informatics" />
+                </div>
+            </div>
+            <div class="flex p-2 justify-between items-end">
+                <div>
+                    <p class="italic">Level *</p>
+                    <input class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" type="text" disabled value="Undergraduate" />
+                </div>
+                <input type="submit" value="Process" class="px-2 py-1 font-semibold bg-white text-[#075640] rounded-lg hover:cursor-pointer text-xl" />
+            </div>
+        </form>
+    </div>
+</div>
+<% } %>
