@@ -1,37 +1,42 @@
 <% if (isAuthorized) { %>
-<div class="col-span-1 row-span-11 bg-[#075640] flex flex-col truncate">
-    <div class="grid grid-rows-11 h-full">
-        <div class="row-span-1 flex justify-start items-center">
-            <h1 class="text-white text-2xl pl-8 underline font-semibold">Student Info</h1>
+    <div class="col-span-1 row-span-11 bg-[#075640] flex flex-col h-full relative">
+        <!-- Logout Button at Top Right -->
+        <form action="/logout" method="POST" class="absolute top-4 right-4">
+            <button class="px-4 py-2 text-xl bg-white rounded-lg text-[#075640] hover:cursor-pointer font-semibold">Logout</button>
+        </form>
+    
+        <!-- Centered "Student Info" Title -->
+        <div class="flex justify-center items-center mt-20">
+            <h1 class="text-white text-2xl underline font-semibold">Student Info</h1>
         </div>
-        <div class="row-span-10 flex flex-col items-center justify-start mt-4 text-white gap-2">
+        
+        <!-- Student Details Section with No Spacing -->
+        <div class="flex flex-col items-center text-white mt-6 gap-0">
             <div class="w-4/5 font-bold">
                 <p class="italic text-md font-normal">Student ID</p>
                 <h1 class="p-3 bg-white rounded-lg text-2xl text-[#075640]"><%= student.studentid %></h1>
             </div>
-            <div class="w-4/5 font-bold">
+            <div class="w-4/5 font-bold mt-2">
                 <p class="italic text-md font-normal">Name</p>
                 <h1 class="p-3 bg-white rounded-lg text-2xl text-[#075640]"><%= student.student_name %></h1>
             </div>
-            <div class="w-4/5 font-bold">
+            <div class="w-4/5 font-bold mt-2">
                 <p class="italic text-md font-normal">Degree</p>
                 <h1 class="p-3 bg-white rounded-lg text-2xl text-[#075640]"><%= student.degree_type === 'BS' ? 'Bachelor Of Science' : 'Bachelor Of Arts' %></h1>
             </div>
-            <div class="w-5/6">
-                <p class="font-bold">- Level <span class="italic font-normal">Undergraduate</span></p>
-                <p class="font-bold">- Classification <span class="italic font-normal"><%= student.classification %></span></p>
-                <p class="font-bold">- Major <span class="italic font-normal">Computer Science</span></p>
-                <p class="font-bold">- Concentration <span class="italic font-normal"><%= student.concentration %></span></p>
-                <p class="font-bold">- College <span class="italic font-normal">Computing and Informatics</span></p>
-                <p class="font-bold">- Advisor <span class="italic font-normal"><%= student.advisor %></span></p>
-                <p class="font-bold">- Writing Placement Level (UG) <span class="italic font-normal">WR04</span></p>
-                <p class="font-bold text-wrap">- Foreign Language <span class="italic font-normal">Foreign Language Not Exempt</span></p>
-                <p class="font-bold">- Test Score(s) <span class="italic font-normal">UWRT WR04</span></p>
-            </div>
-            <form action="/logout" method="POST" class="flex-1 w-full pr-3 pb-6 flex items-end justify-center">
-                <button class="px-4 py-2 text-xl bg-white rounded-lg text-[#075640] hover:cursor-pointer font-semibold">Logout</button>
-            </form>
+        </div>
+    
+        <!-- Full-width Additional Details Section with White Text -->
+        <div class="w-full text-base font-bold px-6 mt-6 text-white">
+            <p class="mb-2">- Level <span class="italic font-normal">Undergraduate</span></p>
+            <p class="mb-2">- Classification <span class="italic font-normal"><%= student.classification %></span></p>
+            <p class="mb-2">- Major <span class="italic font-normal">Computer Science</span></p>
+            <p class="mb-2">- Concentration <span class="italic font-normal"><%= student.concentration %></span></p>
+            <p class="mb-2">- College <span class="italic font-normal">Computing and Informatics</span></p>
+            <p class="mb-2">- Advisor <span class="italic font-normal"><%= student.advisor %></span></p>
+            <p class="mb-2">- Writing Placement Level (UG) <span class="italic font-normal">WR04</span></p>
+            <p class="mb-2">- Foreign Language <span class="italic font-normal">Foreign Language Not Exempt</span></p>
+            <p class="mb-2">- Test Score(s) <span class="italic font-normal">UWRT WR04</span></p>
         </div>
     </div>
-</div>
-<% } %>
+    <% } %>
