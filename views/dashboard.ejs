@@ -1,150 +1,261 @@
-<div>
+<div class="flex">
+    <a href="/dashboard" class="py-2 text-center w-[125px] text-[#075640] font-bold <%= whatif ? '' : 'border-b-2 border-[#075640]' %> hover:bg-slate-100">Academic</a>
+    <a href="/dashboard?whatif=true" class="py-2 text-center w-[125px] text-[#075640] font-bold <%= whatif ? 'border-b-2 border-[#075640]' : '' %> hover:bg-slate-100">What-if</a>
+</div>
+
+<% if (!whatif) { %>
+
+<div class="p-[20px]">
     <!-- Student Information and Degree Completion Section -->
-    <div style="display: flex; justify-content: space-between; padding: 20px; background-color: #e0e0e0; margin: 20px;">
+    <div style="display: flex; justify-content: space-between; background-color: #e0e0e0; padding: 20px;">
         <div>
-            <p>STUDENT NAME:</p>
-            <p>STUDENT ID:</p>
-            <p>CLASSIFICATION:</p>
-            <p>MAJOR: Computer Science</p>
-            <p>CONCENTRATION:</p>
-            <p>DEGREE TYPE:</p>
-            <p>ADVISOR:</p>
-        </div>
-        <div style="text-align: center;">
-            <div style="width: 100px; height: 100px; border-radius: 50%; background-color: lightgrey; display: inline-block; position: relative;">
-                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px;">50%</div>
+        <p><strong>Student Name :</strong> <%= student.student_name %></p>
+        <p><strong>Major:</strong> <%= student.major %></p>
+        <p><strong>Concentration:</strong> <%= student.concentration %></p>
+        <p><strong>Degree Type:</strong> <%= student.degree_type %></p>
+        <p><strong>Advisor:</strong> <%= student.advisor %></p>
+        <p><strong>Email:</strong> <%= student.email %></p>
+        <p><strong>Classification:</strong> <%= student.classification %></p>
+        <p><strong>Student ID:</strong> <%= student.studentid %></p>
+                <p><b>Overall GPA:</b> <input type="text" id="gpa" value="4.00" readonly style="border: none; background: transparent; width: 50px;"></p> 
             </div>
-            <p>Degree Completion</p>
+            <div style="text-align: center;">
+                <div style="width: 100px; height: 100px; border-radius: 50%; background-color: lightgrey; display: inline-block; position: relative;">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px;">50%</div>
+                </div>
+                <p>Degree Completion</p>
+            </div>
         </div>
-    </div>
 
-    <!-- General Education and Major Information Section -->
-    <div style="padding: 20px;">
-        <h2>General Education:</h2>
-        <ul>
-            <li>✔ DEVELOPMENT OF FUNDAMENTAL SKILLS OF INQUIRY</li>
-            <li>✔ INQUIRY OF THE SCIENCES</li>
-            <li>✔ THEMES OF LIBERAL EDUCATION FOR PRIVATE AND PUBLIC LIFE</li>
-            <li>✔ CRITICAL THINKING AND COMMUNICATION</li>
-        </ul>
+        <!-- General Education and Major Information Section -->
+        <div style="padding: 20px;">
+            <h2>General Education:</h2>
+            <ul>
+                <li>✔ DEVELOPMENT OF FUNDAMENTAL SKILLS OF INQUIRY</li>
+                <li>✔ INQUIRY OF THE SCIENCES</li>
+                <li>✔ THEMES OF LIBERAL EDUCATION FOR PRIVATE AND PUBLIC LIFE</li>
+                <li>✔ CRITICAL THINKING AND COMMUNICATION</li>
+            </ul>
 
-        <h2>Major in Computer Science:</h2>
-        <ul>
-            <li>✔ CORE COURSES</li>
-            <li>✔ Communication Skills</li>
-        </ul>
-    </div>
-
-    <!-- Course Table -->
-    <table style="width: 100%; text-align: left; margin: 20px;">
-        <thead>
-            <tr style="font-weight: bold;">
-                <th>Course</th>
-                <th>Title</th>
-                <th>Grade</th>
-                <th>Credit Hours</th>
-                <th>Term</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
-    <!-- GPA Calculation Section -->
-    <h2>Calculate Your Semester GPA</h2>
-    <form id="gpaForm">
-        <table style="width: 100%; margin: 20px;">
-            <tr>
-                <th>Course Subject/No. (Optional)</th>
-                <th>Credit Hours</th>
-                <th>Grade</th>
-                <th>Quality Points</th>
-            </tr>
-            <!-- Row 1 -->
-            <tr>
-                <td><input type="text" name="course1" placeholder="Course 1"></td>
-                <td><input type="number" name="credit1" min="0" step="1" placeholder="Credit Hours" class="credits"></td>
-                <td><input type="text" name="grade1" placeholder="Grade (A, B, C...)" class="grades"></td>
-                <td><input type="text" name="quality1" placeholder="Calculated Quality Points" readonly class="quality-points"></td>
-            </tr>
-            <!-- Row 2 -->
-            <tr>
-                <td><input type="text" name="course2" placeholder="Course 2"></td>
-                <td><input type="number" name="credit2" min="0" step="1" placeholder="Credit Hours" class="credits"></td>
-                <td><input type="text" name="grade2" placeholder="Grade" class="grades"></td>
-                <td><input type="text" name="quality2" placeholder="Calculated Quality Points" readonly class="quality-points"></td>
-            </tr>
-            <!-- Add more rows as needed -->
-        </table>
+            <h2>Major in Computer Science:</h2>
+            <ul>
+                <li>✔ CORE COURSES</li>
+                <li>✔ Communication Skills</li>
+            </ul>
+        </div>
 
         <div>
-            <label for="totalQuality">Total Quality Points:</label>
-            <input type="text" id="totalQuality" name="totalQuality" readonly>
+            <table class="table-fixed" style="width: 100%; text-align: left;">
+                <thead>
+                    <tr style="font-weight: bold;">
+                        <th>Course</th>
+                        <th>Credit Hours</th>
+                        <th>Grade Obtained</th>
+                        <th>Future Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% courses.forEach(course => { %>
+                        <tr>
+                            <td><%= course.name %></td>
+                            <td><%= course.credits %></td>
+                            <td><%= course.grade_obtained %></td>
+                            <td><%= course.future_grade %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
         </div>
-        <div>
-            <label for="totalGPAHours">Total GPA Hours:</label>
-            <input type="text" id="totalGPAHours" name="totalGPAHours" readonly>
+
+        <!-- Collapsible Sections for Courses with GPA Calculation Inputs -->
+        <div style="padding: 20px;">
+            <h2 onclick="toggleCollapse('coreCourses', this)" class="collapsible">Core Classes (Major in Computer Science) <span class="indicator">▼</span></h2>
+            <div id="coreCourses" class="collapsible-content">
+                <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
+                    <h4>Core Course 1</h4>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
+                        <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
+                        <label style="color: #075640; margin-right: 5px;">Grade</label>
+                        <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
+                    </div>
+                </div>
+                <!-- Additional core courses -->
+            </div>
+
+            <h2 onclick="toggleCollapse('cciElectives', this)" class="collapsible">CCI Elective Courses in Outside Disciplines <span class="indicator">▼</span></h2>
+            <div id="cciElectives" class="collapsible-content">
+                <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
+                    <h4>Elective Course 1</h4>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
+                        <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
+                        <label style="color: #075640; margin-right: 5px;">Grade</label>
+                        <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
+                    </div>
+                </div>
+                <!-- Additional elective courses -->
+            </div>
+
+            <h2 onclick="toggleCollapse('concentrationCourses', this)" class="collapsible">Concentration in <%= student.concentration %> <span class="indicator">▼</span></h2>
+            <div id="concentrationCourses" class="collapsible-content">
+                <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
+                    <h4>Concentration Course 1</h4>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
+                        <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
+                        <label style="color: #075640; margin-right: 5px;">Grade</label>
+                        <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
+                    </div>
+                </div>
+                <!-- Additional concentration courses -->
+            </div>
+
+            <h2 onclick="toggleCollapse('otherCourses', this)" class="collapsible">Other Courses <span class="indicator">▼</span></h2>
+            <div id="otherCourses" class="collapsible-content">
+                <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
+                    <h4>Other Course 1</h4>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
+                        <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
+                        <label style="color: #075640; margin-right: 5px;">Grade</label>
+                        <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
+                    </div>
+                </div>
+                <!-- Additional other courses -->
+            </div>
         </div>
-        <div>
-            <label for="gpa">GPA:</label>
-            <input type="text" id="gpa" name="gpa" readonly>
-        </div>
 
-        <button type="submit">Submit</button>
-    </form>
-
-    <!-- Link to GPA Algorithm JavaScript -->
-    <script src="/path-to-js/gpa-algorithms.js"></script>
-
-    <!-- Script to Dynamically Update GPA -->
-    <script>
-        document.querySelectorAll('.grades, .credits').forEach(input => {
-            input.addEventListener('input', calculateGPA);
-        });
-
-        function calculateGPA() {
+        <!-- JavaScript for GPA Calculation -->
+        <script>
             const credits = document.querySelectorAll('.credits');
             const grades = document.querySelectorAll('.grades');
-            const qualityPointsFields = document.querySelectorAll('.quality-points');
 
-            let totalQualityPoints = 0;
-            let totalCredits = 0;
+            credits.forEach(input => input.addEventListener('input', calculateGPA));
+            grades.forEach(input => input.addEventListener('input', calculateGPA));
 
-            credits.forEach((creditInput, index) => {
-                const credit = parseFloat(creditInput.value) || 0;
-                const grade = grades[index].value.toUpperCase();
+            function calculateGPA() {
+                let totalQualityPoints = 0;
+                let totalCredits = 0;
 
-                // Calculate quality points (credit hours * grade point value)
-                const gradePoints = gradeToPoints(grade);
-                const qualityPoints = gradePoints * credit;
+                credits.forEach((creditInput, index) => {
+                    const credit = parseFloat(creditInput.value) || 0;
+                    const grade = grades[index].value;
+                    const qualityPoints = getQualityPoints(grade) * credit;
 
-                if (!isNaN(qualityPoints)) {
-                    qualityPointsFields[index].value = qualityPoints.toFixed(2);
-                }
+                    totalQualityPoints += qualityPoints;
+                    totalCredits += credit;
+                });
 
-                totalQualityPoints += qualityPoints;
-                totalCredits += credit;
-            });
-
-            // Update total quality points and GPA hours
-            document.getElementById('totalQuality').value = totalQualityPoints.toFixed(2);
-            document.getElementById('totalGPAHours').value = totalCredits.toFixed(2);
-
-            // Calculate GPA
-            const gpa = totalQualityPoints / totalCredits || 0;
-            document.getElementById('gpa').value = gpa.toFixed(2);
-        }
-
-        // Function to convert grade to points
-        function gradeToPoints(grade) {
-            switch(grade) {
-                case 'A': return 4.0;
-                case 'B': return 3.0;
-                case 'C': return 2.0;
-                case 'D': return 1.0;
-                case 'F': return 0;
-                default: return 0;
+                document.getElementById('gpa').value = totalCredits ? (totalQualityPoints / totalCredits).toFixed(2) : 0; // Calculate GPA only
             }
+
+            function getQualityPoints(grade) {
+                switch (grade.toUpperCase()) {
+                    case 'A': return 4.0;
+                    case 'B': return 3.0;
+                    case 'C': return 2.0;
+                    case 'D': return 1.0;
+                    case 'F': return 0.0;
+                    default: return 0.0; // Assume 0 for unrecognized grades
+                }
+            }
+
+            function toggleCollapse(id, header) {
+                const content = document.getElementById(id);
+                const expanded = content.style.display === 'block';
+                content.style.display = expanded ? 'none' : 'block';
+                header.querySelector('.indicator').innerText = expanded ? '▼' : '▲';
+            }
+        </script>
+    </div>
+
+
+
+    <style>
+        .collapsible {
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #075640;
+            color: white;
+            margin-top: 5px;
+            border-radius: 5px;
         }
-    </script>
+
+        .collapsible-content {
+            display: none;
+            overflow: hidden;
+            padding: 10px 20px;
+            background-color: #075640;
+            border: 1px solid #ddd;
+        }
+
+        .class-container {
+            margin-top: 10px;
+            background-color: #e0e0e0;
+            padding: 10px;
+            border-radius: 5px;
+            color:#075640;
+        }
+    </style>
 </div>
+
+
+
+<% } else { %>
+    <div class="p-[20px] flex gap-4">
+        <div class="flex gap-2 items-center">
+            <i class="fa-solid fa-circle-check text-[#075640]"></i>
+            <h1 class="text-[#075640]">Completed</h1>
+        </div>
+        <div class="flex gap-2 items-center">
+            <i class="fa-solid fa-circle-half-stroke text-blue-800"></i>
+            <h1 class="text-[#075640]">In-progress</h1>
+        </div>
+    </div>
+    <div class="p-[20px] flex justify-center text-white">
+        <div class="w-11/12 bg-[#075640] rounded-lg p-4">
+            <h1 class="text-2xl font-semibold">Progress</h1>
+            <form action="/dashboard" method="get">
+                <div class="flex gap-4 p-2">
+                    <div>
+                        <p class="italic">Catalog Year *</p>
+                        <input disabled class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" value="2024-2025" />
+                    </div>
+                    <div>
+                        <p class="italic">Degree *</p>
+                        <input class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" type="text" disabled value="<%= student.degree_type === 'BS' ? 'Bachelor Of Science' : 'Bachelor of Arts'%>" />
+                    </div>
+                </div>
+                <div class="flex gap-4 p-2">
+                    <div>
+                        <p class="italic">Program *</p>
+                        <select class="px-2 py-2 w-[280px] rounded-lg bg-[#075640] border-2 border-white truncate">
+                            <option>AI, Robotics and Gaming - B.S.</option>
+                            <option>Bioinformatics - B.S.</option>
+                            <option>Cybersecurity - B.S.</option>
+                            <option>Data Science - B.S.</option>
+                            <option>Systems and Networks - B.S.</option>
+                            <option>Web/Mobile Development and Software Engineering - B.S.</option>
+                            <option>Human-Computer Interaction - B.A.</option>
+                            <option>Information Technology - B.A.</option>
+                            <option>Bioinformatics - B.A.</option>
+                        </select>
+                    </div>
+                    <div>
+                        <p class="italic">College *</p>
+                        <input class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" type="text" disabled value="Computing & Informatics" />
+                    </div>
+                </div>
+                <div class="flex p-2 justify-between items-end">
+                    <div>
+                        <p class="italic">Level *</p>
+                        <input class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" type="text" disabled value="Undergraduate" />
+                    </div>
+                    <input type="submit" value="Process" class="px-2 py-1 font-semibold bg-white text-[#075640] rounded-lg hover:cursor-pointer text-xl" />
+                </div>
+            </form>
+        </div>
+    </div>
+<% } %>
