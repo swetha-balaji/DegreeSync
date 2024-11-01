@@ -9,122 +9,124 @@
     <!-- Student Information and Degree Completion Section -->
     <div style="display: flex; justify-content: space-between; background-color: #e0e0e0; padding: 20px;">
         <div>
-        <p><strong>Student Name :</strong> <%= student.student_name %></p>
-        <p><strong>Major:</strong> <%= student.major %></p>
-        <p><strong>Concentration:</strong> <%= student.concentration %></p>
-        <p><strong>Degree Type:</strong> <%= student.degree_type %></p>
-        <p><strong>Advisor:</strong> <%= student.advisor %></p>
-        <p><strong>Email:</strong> <%= student.email %></p>
-        <p><strong>Classification:</strong> <%= student.classification %></p>
-        <p><strong>Student ID:</strong> <%= student.studentid %></p>
-                <p><b>Overall GPA:</b> <input type="text" id="gpa" value="4.00" readonly style="border: none; background: transparent; width: 50px;"></p> 
-            </div>
-            <div style="text-align: center;">
-                <div style="width: 100px; height: 100px; border-radius: 50%; background-color: lightgrey; display: inline-block; position: relative;">
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px;">50%</div>
-                </div>
-                <p>Degree Completion</p>
-            </div>
+            <p><strong>Student Name :</strong> <%= student.student_name %></p>
+            <p><strong>Major:</strong> <%= student.major %></p>
+            <p><strong>Concentration:</strong> <%= student.concentration %></p>
+            <p><strong>Degree Type:</strong> <%= student.degree_type %></p>
+            <p><strong>Advisor:</strong> <%= student.advisor %></p>
+            <p><strong>Email:</strong> <%= student.email %></p>
+            <p><strong>Classification:</strong> <%= student.classification %></p>
+            <p><strong>Student ID:</strong> <%= student.studentid %></p>
+            <p><strong>Overall GPA:</strong> <input type="text" id="gpa" value="4.00" readonly style="border: none; background: transparent; width: 50px;"></p>
         </div>
-
-        <!-- General Education and Major Information Section -->
-        <div style="padding: 20px;">
-            <h2>General Education:</h2>
-            <ul>
-                <li>✔ DEVELOPMENT OF FUNDAMENTAL SKILLS OF INQUIRY</li>
-                <li>✔ INQUIRY OF THE SCIENCES</li>
-                <li>✔ THEMES OF LIBERAL EDUCATION FOR PRIVATE AND PUBLIC LIFE</li>
-                <li>✔ CRITICAL THINKING AND COMMUNICATION</li>
-            </ul>
-
-            <h2>Major in Computer Science:</h2>
-            <ul>
-                <li>✔ CORE COURSES</li>
-                <li>✔ Communication Skills</li>
-            </ul>
+        <div style="text-align: center;">
+            <div style="width: 100px; height: 100px; border-radius: 50%; background-color: lightgrey; display: inline-block; position: relative;">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px;">50%</div>
+            </div>
+            <p>Degree Completion</p>
         </div>
+    </div>
 
-        <div>
-            <table class="table-fixed" style="width: 100%; text-align: left;">
-                <thead>
-                    <tr style="font-weight: bold;">
-                        <th>Course</th>
-                        <th>Credit Hours</th>
-                        <th>Grade Obtained</th>
-                        <th>Future Grade</th>
+    <!-- General Education and Major Information Section -->
+    <div style="padding: 20px;">
+        <h2>General Education:</h2>
+        <ul>
+            <li>✔ DEVELOPMENT OF FUNDAMENTAL SKILLS OF INQUIRY</li>
+            <li>✔ INQUIRY OF THE SCIENCES</li>
+            <li>✔ THEMES OF LIBERAL EDUCATION FOR PRIVATE AND PUBLIC LIFE</li>
+            <li>✔ CRITICAL THINKING AND COMMUNICATION</li>
+        </ul>
+        <h2>Major in Computer Science:</h2>
+        <ul>
+            <li>✔ CORE COURSES</li>
+            <li>✔ Communication Skills</li>
+        </ul>
+    </div>
+
+    <div>
+        <table class="table-fixed" style="width: 100%; text-align: left;">
+            <thead>
+                <tr style="font-weight: bold;">
+                    <th>Course</th>
+                    <th>Credit Hours</th>
+                    <th>Grade Obtained</th>
+                    <th>Future Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% courses.forEach(course => { %>
+                    <tr>
+                        <td><%= course.name %></td>
+                        <td><%= course.credits %></td>
+                        <td><%= course.grade_obtained %></td>
+                        <td><%= course.future_grade %></td>
                     </tr>
-                </thead>
-                <tbody>
-                    <% courses.forEach(course => { %>
-                        <tr>
-                            <td><%= course.name %></td>
-                            <td><%= course.credits %></td>
-                            <td><%= course.grade_obtained %></td>
-                            <td><%= course.future_grade %></td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <!-- Collapsible Sections for Courses with GPA Calculation Inputs -->
+    <div style="padding: 20px;">
+        <h2 onclick="toggleCollapse('coreCourses', this)" class="collapsible">Core Classes (Major in Computer Science) <span class="indicator">▼</span></h2>
+        <div id="coreCourses" class="collapsible-content">
+            <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
+                <h4>Core Course 1</h4>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
+                    <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
+                    <label style="color: #075640; margin-right: 5px;">Grade</label>
+                    <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
+                </div>
+            </div>
+            <!-- Additional core courses -->
         </div>
 
-        <!-- Collapsible Sections for Courses with GPA Calculation Inputs -->
-        <div style="padding: 20px;">
-            <h2 onclick="toggleCollapse('coreCourses', this)" class="collapsible">Core Classes (Major in Computer Science) <span class="indicator">▼</span></h2>
-            <div id="coreCourses" class="collapsible-content">
-                <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
-                    <h4>Core Course 1</h4>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
-                        <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
-                        <label style="color: #075640; margin-right: 5px;">Grade</label>
-                        <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
-                    </div>
+        <h2 onclick="toggleCollapse('cciElectives', this)" class="collapsible">CCI Elective Courses in Outside Disciplines <span class="indicator">▼</span></h2>
+        <div id="cciElectives" class="collapsible-content">
+            <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
+                <h4>Elective Course 1</h4>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
+                    <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
+                    <label style="color: #075640; margin-right: 5px;">Grade</label>
+                    <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
                 </div>
-                <!-- Additional core courses -->
             </div>
-
-            <h2 onclick="toggleCollapse('cciElectives', this)" class="collapsible">CCI Elective Courses in Outside Disciplines <span class="indicator">▼</span></h2>
-            <div id="cciElectives" class="collapsible-content">
-                <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
-                    <h4>Elective Course 1</h4>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
-                        <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
-                        <label style="color: #075640; margin-right: 5px;">Grade</label>
-                        <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
-                    </div>
-                </div>
-                <!-- Additional elective courses -->
-            </div>
-
-            <h2 onclick="toggleCollapse('concentrationCourses', this)" class="collapsible">Concentration in <%= student.concentration %> <span class="indicator">▼</span></h2>
-            <div id="concentrationCourses" class="collapsible-content">
-                <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
-                    <h4>Concentration Course 1</h4>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
-                        <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
-                        <label style="color: #075640; margin-right: 5px;">Grade</label>
-                        <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
-                    </div>
-                </div>
-                <!-- Additional concentration courses -->
-            </div>
-
-            <h2 onclick="toggleCollapse('otherCourses', this)" class="collapsible">Other Courses <span class="indicator">▼</span></h2>
-            <div id="otherCourses" class="collapsible-content">
-                <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
-                    <h4>Other Course 1</h4>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
-                        <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
-                        <label style="color: #075640; margin-right: 5px;">Grade</label>
-                        <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
-                    </div>
-                </div>
-                <!-- Additional other courses -->
-            </div>
+            <!-- Additional elective courses -->
         </div>
+
+        <h2 onclick="toggleCollapse('concentrationCourses', this)" class="collapsible">Concentration in <%= student.concentration %> <span class="indicator">▼</span></h2>
+        <div id="concentrationCourses" class="collapsible-content">
+            <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
+                <h4>Concentration Course 1</h4>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
+                    <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
+                    <label style="color: #075640; margin-right: 5px;">Grade</label>
+                    <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
+                </div>
+            </div>
+            <!-- Additional concentration courses -->
+        </div>
+
+        <h2 onclick="toggleCollapse('otherCourses', this)" class="collapsible">Other Courses <span class="indicator">▼</span></h2>
+        <div id="otherCourses" class="collapsible-content">
+            <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
+                <h4>Other Course 1</h4>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
+                    <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
+                    <label style="color: #075640; margin-right: 5px;">Grade</label>
+                    <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
+                </div>
+            </div>
+            <!-- Additional other courses -->
+        </div>
+    </div>
+</div>
 
         <!-- JavaScript for GPA Calculation -->
         <script>
@@ -200,9 +202,6 @@
         }
     </style>
 </div>
-
-
-
 <% } else { %>
     <div class="p-[20px] flex gap-4">
         <div class="flex gap-2 items-center">
