@@ -5,135 +5,33 @@
 
 <% if (!whatif) { %>
 
-<div class="p-[20px]">
-    <!-- Student Information and Degree Completion Section -->
-    <% let completionPercentage = Math.floor((student.credits / 120) * 100); %>
-    <div style="display: flex; justify-content: space-between; background-color: #e0e0e0; padding: 20px;">
-        <div>
-            <p><b>Student Name:</b> <%= student.student_name %></p>
-            <p><b>Major:</b> <%= student.major %></p>
-            <p><b>Concentration:</b> <%= student.concentration %></p>
-            <p><b>Degree Type:</b> <%= student.degree_type %></p>
-            <p><b>Advisor:</b> <%= student.advisor %></p>
-            <p><b>Credits:</b> <%= student.credits %></p>
-            <p><b>Student Email:</b> <%= student.email %></p>
-            <p><b>Classification:</b> <%= student.classification %></p>
-            <p><b>Student ID:</b> <%= student.studentid %></p>
-        </div>
-        <div style="text-align: center;">
-            <div style="
-                width: 120px;
-                height: 120px;
-                border-radius: 50%;
-                background: conic-gradient(#00b300 <%= completionPercentage %>%, lightgrey <%= completionPercentage %>%);
-                display: inline-block;
-                position: relative;
-            ">
-                <div style="
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    font-size: 20px;
-                    color: #333;
-                ">
-                    <%= completionPercentage %>%
+    <div class="w-full grid grid-cols-4 p-[20px]">
+        <div class="flex flex-col">
+            <h1 class="italic text-2xl">Degree Progress</h1>
+            <div class="flex items-center justify-evenly mt-4">
+                <div class="degree-completion flex justify-center items-center rounded-full max-w-[150px] max-h-[150px] h-[150px] w-[150px] mt-1">
+                    <h1 class="text-xl text-center">50%<br>Complete</h1>
+                </div>
+                <div class="text-center text-[#075640]">
+                    <h1 class="text-2xl font-bold">3.50</h1>
+                    <h2 class="text-lg">Overall GPA</h2>
                 </div>
             </div>
-            <p>Degree Completion</p>
+        </div>
+        <div class="col-span-3 flex justify-center">
+            <div class="flex w-5/6 h-[125px] bg-[#075640] rounded-lg items-center justify-between">
+                <div class="flex flex-col">
+                    <div class="flex gap-2 items-center text-white pl-3 pt-3">
+                        <h1 class="text-4xl font-bold">Bachelor of Science</h1>
+                        <h1 class="p-1 border-2 rounded-lg border-white">IN-PROGRESS</h1>
+                    </div>
+                    <div class="flex">
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
-
-    <!-- General Education and Major Information Section -->
-    <div style="padding: 20px;">
-        <h2>General Education:</h2>
-        <ul>
-            <li>✔ DEVELOPMENT OF FUNDAMENTAL SKILLS OF INQUIRY</li>
-            <li>✔ INQUIRY OF THE SCIENCES</li>
-            <li>✔ THEMES OF LIBERAL EDUCATION FOR PRIVATE AND PUBLIC LIFE</li>
-            <li>✔ CRITICAL THINKING AND COMMUNICATION</li>
-        </ul>
-
-        <h2>Major in Computer Science:</h2>
-        <ul>
-            <li>✔ CORE COURSES</li>
-            <li>✔ Communication Skills</li>
-        </ul>
-    </div>
-
-    <h2>Courses for <%= student.concentration %>:</h2>
-    
-    <div>
-        <table class="table-fixed" style="width: 100%; text-align: left;">
-            <thead>
-                <tr style="font-weight: bold;">
-                    <th>Course</th>
-                    <th>Credit Hours</th>
-                    <th>Grade Obtained</th>
-                    <th>Future Grade</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% courses.forEach(course => { %>
-                    <tr>
-                        <td><%= course.name %></td>
-                        <td><%= course.credits %></td>
-                        <td><%= course.grade_obtained %></td>
-                        <td><%= course.future_grade %></td>
-                    </tr>
-                <% }) %>
-            </tbody>
-        </table>
-    </div>
-
-
-    </div>
-    <!-- GPA Calculation Section -->
-    <h2 class="p-[20px]">Calculate Your Semester GPA</h2>
-    <form id="gpaForm" class="p-[20px]">
-        <table style="width: 100%;">
-            <tr>
-                <th>Course Subject/No. (Optional)</th>
-                <th>Credit Hours</th>
-                <th>Grade</th>
-                <th>Quality Points</th>
-            </tr>
-            <!-- Row 1 -->
-            <tr>
-                <td><input type="text" name="course1" placeholder="Course 1"></td>
-                <td><input type="number" name="credit1" min="0" step="1" placeholder="Credit Hours" class="credits"></td>
-                <td><input type="text" name="grade1" placeholder="Grade (A, B, C...)" class="grades"></td>
-                <td><input type="text" name="quality1" placeholder="Calculated Quality Points" readonly class="quality-points"></td>
-            </tr>
-            <!-- Row 2 -->
-            <tr>
-                <td><input type="text" name="course2" placeholder="Course 2"></td>
-                <td><input type="number" name="credit2" min="0" step="1" placeholder="Credit Hours" class="credits"></td>
-                <td><input type="text" name="grade2" placeholder="Grade" class="grades"></td>
-                <td><input type="text" name="quality2" placeholder="Calculated Quality Points" readonly class="quality-points"></td>
-            </tr>
-            <!-- Add more rows as needed -->
-        </table>
-
-        <div>
-            <label for="totalQuality">Total Quality Points:</label>
-            <input type="text" id="totalQuality" name="totalQuality" readonly>
-        </div>
-        <div>
-            <label for="totalGPAHours">Total GPA Hours:</label>
-            <input type="text" id="totalGPAHours" name="totalGPAHours" readonly>
-        </div>
-        <div>
-            <label for="gpa">GPA:</label>
-            <input type="text" id="gpa" name="gpa" readonly>
-        </div>
-
-        <button type="submit">Submit</button>
-    </form>
-
-    <!-- Link to GPA Algorithm JavaScript -->
-    <script src="/js/gpa-algorithms.js"></script>
 
     <!-- Script to Dynamically Update GPA -->
     <script>
