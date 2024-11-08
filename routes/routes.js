@@ -14,6 +14,4 @@ router.get('/dashboard', getDashboardPage);
 
 router.post('/logout', logout);
 
-router.get('/courses', getCourses);
-
 module.exports = router;
