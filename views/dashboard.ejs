@@ -8,15 +8,38 @@
         <div class="flex flex-col">
             <h1 class="italic text-2xl">Degree Progress</h1>
             <div class="flex items-center justify-evenly mt-4">
-                <div class="degree-completion flex justify-center items-center rounded-full max-w-[150px] max-h-[150px] h-[150px] w-[150px] mt-1">
-                    <h1 class="text-xl text-center font-semibold"><%= (parseFloat(student.credits / 120) * 100).toFixed(0) %>%<br>Complete</h1>
+                <div style="
+                    width: 120px;
+                    height: 120px;
+                    border-radius: 50%;
+                    background: conic-gradient(#075640 <%= (parseFloat(student.credits / 120) * 100).toFixed(0) %>%, lightgrey <%= (parseFloat(student.credits / 120) * 100).toFixed(0) %>%);
+                    display: inline-block;
+                    position: relative;
+                ">
+                    <div style="
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        font-size: 20px;
+                        color: #FFFFFF;
+                        font-weight: bold;
+                    ">
+                        <%= (parseFloat(student.credits / 120) * 100).toFixed(0) %>%
+                    </div>
                 </div>
                 <div class="text-center text-[#075640]">
-                    <h1 class="text-2xl font-bold"><%= student.gpa.toFixed(2) %></h1>
+                    <h1 class="text-2xl font-bold">
+                        <%= student.gpa ? student.gpa.toFixed(2) : "N/A" %>
+                    </h1>
                     <h2 class="text-lg">Overall GPA</h2>
                 </div>
             </div>
         </div>
+    </div>
+    
+  
+        
         <div class="col-span-3 flex flex-col justify-center gap-2">
             <div id="comp-sci-dropdown" class="flex w-5/6 h-[125px] bg-[#075640] rounded-lg items-center hover:cursor-pointer">
                 <div class="flex flex-col w-full gap-2">
