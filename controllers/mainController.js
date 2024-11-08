@@ -1,6 +1,5 @@
 const Student = require("../models/Student");
 const Course = require("../models/Course");
-const StudentCourse = require("../models/StudentCourse");
 
 // Constants used as lower and upper bounds for generating a student ID
 const MIN = 8080000000;
@@ -9,7 +8,7 @@ const MAX = 8089999999;
 function generateCredits(classification) {
     switch (classification) {
         case 'Freshman':
-            return Math.floor(Math.random() * 30); // 0 to 29 credits
+            return Math.floor(Math.random() * 15) + 15; // 0 to 29 credits
         case 'Sophomore':
             return Math.floor(Math.random() * 30) + 30; // 30 to 59 credits
         case 'Junior':
@@ -52,20 +51,17 @@ exports.login = async(req, res)=>{
 
 exports.getSignupPage = (req, res)=>{
     if (req.session.userId) {
-        res.redirect('/dashboard');
-        return;
+        return res.redirect('/dashboard');
     }
 
     res.render('register', { isAuthorized: false, student: undefined, err: false });
 }
 
-exports.register = async(req, res)=>{
+exports.register = async(req, res, next)=>{
     const { firstName, lastName, email, password, classification, concentration } = req.body;
     
-    // Check if email already exists
     let student = await Student.findOne({email: email}).exec()
 
-    // if student exists render an error message
     if (student) {
         res.render('register', { isAuthorized: false, student: undefined, err: true });
         return;
@@ -74,7 +70,6 @@ exports.register = async(req, res)=>{
     // Split concentration to determine BS or BA 
     let [conc, degree] = concentration.split('-')
 
-    // Generate random 808 number to be student id, 
     let studentId = Math.floor((Math.random() * (MAX - MIN) + MIN));
     let credits = generateCredits(classification);
     let newStudent = await Student.create({
@@ -88,43 +83,52 @@ exports.register = async(req, res)=>{
         degree_type: degree,
         email: email,
         password: password,
+        gpa: (Math.random() + 3.00).toFixed(2)
     });
 
-    newStudent.save();
-    res.redirect('/')
+    await newStudent.save()
+    
+    generateStudentCourses(newStudent.classification, req.session.userId);
+
+    res.redirect('/');
+}
+
+async function generateStudentCourses(classification, userId) {
+
+    switch (classification) {
+        case 'Freshman':
+            break;
+        case 'Sophomore':
+            break;
+        case 'Junior':
+            break;
+        case 'Senior':
+            break;
+    }
+
+    // Student Courses have been generated
+
 }
 
 exports.getDashboardPage = async(req, res)=>{
+
     if (!req.session.userId) {
-        res.redirect('/');
-        return;
+        return res.redirect('/');
     }
 
     try {
         let student = await Student.findOne({ studentid: req.session.userId }).exec();
+
+        let majorCourses = await Course.find({ is_core: true }).exec(); 
         let concentrationCourses = await Course.find({ concentration: student.concentration }).exec();
-        let enrolledCourses = await StudentCourse.find({ student: student._id }).populate('course').exec();
-
-        const enrolledCoursesMap = new Map();
-        enrolledCourses.forEach((sc) => {
-            enrolledCoursesMap.set(sc.course._id.toString(), sc);
-        });
-
-        const coursesWithGrades = concentrationCourses.map((course) => {
-            const enrolledData = enrolledCoursesMap.get(course._id.toString());
-            return {
-                ...course._doc,
-                grade_obtained: enrolledData ? enrolledData.grade_obtained : "-",
-                future_grade: enrolledData ? enrolledData.future_grade : ""
-            };
-        });
 
         const whatif = req.query.whatif === 'true';
 
         res.render('dashboard', {
             isAuthorized: true,
             student: student,
-            courses: coursesWithGrades,
+            majorCourses: majorCourses,
+            concentrationCourses: concentrationCourses,
             whatif: whatif 
         });
 
@@ -134,20 +138,9 @@ exports.getDashboardPage = async(req, res)=>{
     }
 };
 
-exports.getCourses = async (req, res) => {
-    if (!req.session.userId) {
-        res.redirect('/');
-        return;
-    }
-
-    let student = await Student.findOne({ studentid: req.session.userId }).exec();
-    let courses = await Course.find({ concentration: student.concentration }).exec();
-    res.render('dashboard', { isAuthorized: true, student: student, courses: courses });
-};
-
 exports.logout = (req, res)=>{
     if (!req.session.userId) {
-        res.redirect('/');
+        return res.redirect('/');
     }
     req.session.destroy();
     res.clearCookie('sid');

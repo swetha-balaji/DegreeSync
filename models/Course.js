@@ -8,11 +8,6 @@ const courseSchema = new Schema({
     },
     prereq: {
         type: String,
-        required: true
-    },
-    crn: {
-        type: Number,
-        required: true
     },
     classno: {
         type: String,
@@ -26,6 +21,12 @@ const courseSchema = new Schema({
         type: [String],
         required: true
     },
+    is_core : {
+        type: Boolean,
+    },
+    is_capstone: {
+        type: Boolean
+    }
 });
 
 module.exports = mongoose.model('Course', courseSchema);
