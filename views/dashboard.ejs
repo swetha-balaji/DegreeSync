@@ -102,8 +102,29 @@
                     </div>
                 </div>
             </div>
-            <div id="concentration-shown" class="w-5/6 p-4 bg-[#075640] hidden">
-                <h1>Concentration Dropdown</h1>
+            <div id="concentration-shown" class="w-5/6 p-4 bg-[#075640] hidden rounded-lg">
+                <div class="text-white">
+                    <table class="table-auto border-separate border-spacing-1 border-spacing-y-[20px]">
+                        <thead class="font-bold">
+                            <th>Complete</th>
+                            <th>Course</th>
+                            <th>Credits</th>
+                            <th>Prerequisites</th>
+                            <th>Grade</th>
+                        </thead>
+                        <tbody>
+                            <% concentrationCourses.forEach((course)=>{ %>
+                                <tr class="bg-white rounded-lg text-[#075640]">
+                                    <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
+                                    <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
+                                    <td class="p-1 text-center"><%= course.credits %></td>
+                                    <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
+                                    <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

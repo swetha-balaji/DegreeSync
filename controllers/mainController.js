@@ -120,6 +120,7 @@ exports.getDashboardPage = async(req, res)=>{
         let student = await Student.findOne({ studentid: req.session.userId }).exec();
 
         let majorCourses = await Course.find({ is_core: true }).exec(); 
+        let concentrationCourses = await Course.find({ concentration: student.concentration }).exec();
 
         const whatif = req.query.whatif === 'true';
 
@@ -127,6 +128,7 @@ exports.getDashboardPage = async(req, res)=>{
             isAuthorized: true,
             student: student,
             majorCourses: majorCourses,
+            concentrationCourses: concentrationCourses,
             whatif: whatif 
         });
 
