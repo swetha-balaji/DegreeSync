@@ -48,7 +48,6 @@
                     </div>
                 </div>
             </div>
-
             <div id="comp-sci-shown" class="w-5/6 p-4 bg-[#075640] hidden rounded-lg">
                 <div class="text-white">
                     <table class="table-auto border-separate border-spacing-1 border-spacing-y-[20px]">
@@ -60,33 +59,29 @@
                             <th>Grade</th>
                         </thead>
                         <tbody>
-
-                <% majorCourses.forEach((course)=>{ %>
-                    <% if (!course.is_capstone) { %>
-                        <tr class="bg-white rounded-lg text-[#075640]">
-                            <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
-                            <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
-                            <td class="p-1 text-center"><%= course.credits %></td>
-                            <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
-                            <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
-                        </tr>
-                    <% } %>
-                <% }) %>
-
-                <tr class="text-2xl text-center font-bold"><td class="text-nowrap">Capstone (Select one)</td></tr>
-                
-
-                <% majorCourses.forEach((course)=>{ %>
-                    <% if (course.is_capstone) { %>
+                        <% majorCourses.forEach((course)=>{ %>
+                            <% if (!course.is_capstone) { %>
                                 <tr class="bg-white rounded-lg text-[#075640]">
                                     <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
                                     <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
                                     <td class="p-1 text-center"><%= course.credits %></td>
                                     <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
                                     <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
-                    <% } %>
-                <% }) %>
-
+                                </tr>
+                            <% } %>
+                        <% }) %>
+                        <tr class="text-2xl text-center font-bold"><td class="text-nowrap">Capstone (Select one)</td></tr>
+                        <% majorCourses.forEach((course)=>{ %>
+                            <% if (course.is_capstone) { %>
+                                <tr class="bg-white rounded-lg text-[#075640]">
+                                    <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
+                                    <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
+                                    <td class="p-1 text-center"><%= course.credits %></td>
+                                    <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
+                                    <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
+                                </tr>
+                            <% } %>
+                        <% }) %>
                         </tbody>
                     </table>
                 </div>
@@ -113,12 +108,12 @@
                             <th>Grade</th>
                         </thead>
                         <tbody>
-                            <% concentrationCourses.forEach((course)=>{ %>
+                            <% concentrationCourses.forEach((c)=>{ %>
                                 <tr class="bg-white rounded-lg text-[#075640]">
                                     <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
-                                    <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
-                                    <td class="p-1 text-center"><%= course.credits %></td>
-                                    <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
+                                    <td class="p-1 text-center"><%= c.classno %> - <%= c.name %></td>
+                                    <td class="p-1 text-center"><%= c.credits %></td>
+                                    <td class="p-1 text-center"><%= c.prereq ? c.prereq : "None" %></td>
                                     <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
                                 </tr>
                             <% }) %>
