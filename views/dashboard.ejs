@@ -4,7 +4,6 @@
 </div>
 
 <% if (!whatif) { %>
-
     <div class="w-full grid grid-cols-4 p-[20px]">
         <div class="flex flex-col">
             <h1 class="italic text-2xl">Degree Progress</h1>
@@ -89,60 +88,76 @@
             </div>
         </div>
     </div>
-
-    <!-- Script to Dynamically Update GPA -->
-    <script>
-        document.querySelectorAll('.grades, .credits').forEach(input => {
-            input.addEventListener('input', calculateGPA);
-        });
-
-        function calculateGPA() {
-            const credits = document.querySelectorAll('.credits');
-            const grades = document.querySelectorAll('.grades');
-            const qualityPointsFields = document.querySelectorAll('.quality-points');
-
-            let totalQualityPoints = 0;
-            let totalCredits = 0;
-
-            credits.forEach((creditInput, index) => {
-                const credit = parseFloat(creditInput.value) || 0;
-                const grade = grades[index].value.toUpperCase();
-
-                // Calculate quality points (credit hours * grade point value)
-                const gradePoints = gradeToPoints(grade);
-                const qualityPoints = gradePoints * credit;
-
-                if (!isNaN(qualityPoints)) {
-                    qualityPointsFields[index].value = qualityPoints.toFixed(2);
-                }
-
-                totalQualityPoints += qualityPoints;
-                totalCredits += credit;
-            });
-
-            // Update total quality points and GPA hours
-            document.getElementById('totalQuality').value = totalQualityPoints.toFixed(2);
-            document.getElementById('totalGPAHours').value = totalCredits.toFixed(2);
-
-            // Calculate GPA
-            const gpa = totalQualityPoints / totalCredits || 0;
-            document.getElementById('gpa').value = gpa.toFixed(2);
-        }
-
-        // Function to convert grade to points
-        function gradeToPoints(grade) {
-            switch(grade) {
-                case 'A': return 4.0;
-                case 'B': return 3.0;
-                case 'C': return 2.0;
-                case 'D': return 1.0;
-                case 'F': return 0;
-                default: return 0;
-            }
-        }
-    </script>
+    </div>
 </div>
 
+        <!-- JavaScript for GPA Calculation -->
+        <script>
+            const credits = document.querySelectorAll('.credits');
+            const grades = document.querySelectorAll('.grades');
+
+            credits.forEach(input => input.addEventListener('input', calculateGPA));
+            grades.forEach(input => input.addEventListener('input', calculateGPA));
+
+            function calculateGPA() {
+                let totalQualityPoints = 0;
+                let totalCredits = 0;
+
+                credits.forEach((creditInput, index) => {
+                    const credit = parseFloat(creditInput.value) || 0;
+                    const grade = grades[index].value;
+                    const qualityPoints = getQualityPoints(grade) * credit;
+
+                    totalQualityPoints += qualityPoints;
+                    totalCredits += credit;
+                });
+
+                document.getElementById('gpa').value = totalCredits ? (totalQualityPoints / totalCredits).toFixed(2) : 0; // Calculate GPA only
+            }
+
+            function getQualityPoints(grade) {
+                switch (grade.toUpperCase()) {
+                    case 'A': return 4.0;
+                    case 'B': return 3.0;
+                    case 'C': return 2.0;
+                    case 'D': return 1.0;
+                    case 'F': return 0.0;
+                    default: return 0.0; // Assume 0 for unrecognized grades
+                }
+            }
+        </script>
+    </div>
+
+
+
+    <style>
+        .collapsible {
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #075640;
+            color: white;
+            margin-top: 5px;
+            border-radius: 5px;
+        }
+
+        .collapsible-content {
+            display: none;
+            overflow: hidden;
+            padding: 10px 20px;
+            background-color: #075640;
+            border: 1px solid #ddd;
+        }
+
+        .class-container {
+            margin-top: 10px;
+            background-color: #e0e0e0;
+            padding: 10px;
+            border-radius: 5px;
+            color:#075640;
+        }
+    </style>
+</div>
 <% } else { %>
 <div class="p-[20px] flex gap-4">
     <div class="flex gap-2 items-center">
@@ -179,19 +194,15 @@
                         <option>Bioinformatics - B.A.</option>
                     </select>
                 </div>
-                <div>
-                    <p class="italic">College *</p>
-                    <input class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" type="text" disabled value="Computing & Informatics" />
+                <div class="flex p-2 justify-between items-end">
+                    <div>
+                        <p class="italic">Level *</p>
+                        <input class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" type="text" disabled value="Undergraduate" />
+                    </div>
+                    <input type="submit" value="Process" class="px-2 py-1 font-semibold bg-white text-[#075640] rounded-lg hover:cursor-pointer text-xl" />
                 </div>
-            </div>
-            <div class="flex p-2 justify-between items-end">
-                <div>
-                    <p class="italic">Level *</p>
-                    <input class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" type="text" disabled value="Undergraduate" />
-                </div>
-                <input type="submit" value="Process" class="px-2 py-1 font-semibold bg-white text-[#075640] rounded-lg hover:cursor-pointer text-xl" />
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 <% } %>
