@@ -33,9 +33,11 @@
                         <%= student.gpa ? student.gpa.toFixed(2) : "N/A" %>
                     </h1>
                     <h2 class="text-lg">Overall GPA</h2>
+                    <span id="projectedGPA" class="text-2xl font-bold">--</span>
+                    <h2 class="text-lg">Projected GPA</h2>
                 </div>
             </div>
-        </div>        
+        </div>    
         <div class="col-span-3 flex flex-col justify-center gap-2">
             <div id="comp-sci-dropdown" class="flex w-5/6 h-[125px] bg-[#075640] rounded-lg items-center hover:cursor-pointer">
                 <div class="flex flex-col w-full gap-2">
@@ -48,6 +50,7 @@
                     </div>
                 </div>
             </div>
+
             <div id="comp-sci-shown" class="w-5/6 p-4 bg-[#075640] hidden rounded-lg">
                 <div class="text-white">
                     <table class="table-auto border-separate border-spacing-1 border-spacing-y-[20px]">
@@ -59,29 +62,36 @@
                             <th>Grade</th>
                         </thead>
                         <tbody>
-                        <% majorCourses.forEach((course)=>{ %>
-                            <% if (!course.is_capstone) { %>
+
+                            <% majorCourses.forEach((course)=>{ %>
+                                <% if (course.is_capstone) { %>
+                                    <tr class="bg-white rounded-lg text-[#075640]">
+                                        <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
+                                        <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
+                                        <td class="p-1 text-center credits"><%= course.credits %></td> <!-- Credits column -->
+                                        <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
+                                        <td class="p-1 text-center">
+                                            <input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            <% }) %>
+                            
+
+                <tr class="text-2xl text-center font-bold"><td class="text-nowrap">Capstone (Select one)</td></tr>
+                
+
+                <% majorCourses.forEach((course)=>{ %>
+                    <% if (course.is_capstone) { %>
                                 <tr class="bg-white rounded-lg text-[#075640]">
                                     <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
                                     <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
                                     <td class="p-1 text-center"><%= course.credits %></td>
                                     <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
                                     <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
-                                </tr>
-                            <% } %>
-                        <% }) %>
-                        <tr class="text-2xl text-center font-bold"><td class="text-nowrap">Capstone (Select one)</td></tr>
-                        <% majorCourses.forEach((course)=>{ %>
-                            <% if (course.is_capstone) { %>
-                                <tr class="bg-white rounded-lg text-[#075640]">
-                                    <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
-                                    <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
-                                    <td class="p-1 text-center"><%= course.credits %></td>
-                                    <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
-                                    <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
-                                </tr>
-                            <% } %>
-                        <% }) %>
+                    <% } %>
+                <% }) %>
+
                         </tbody>
                     </table>
                 </div>
@@ -97,70 +107,15 @@
                     </div>
                 </div>
             </div>
-            <div id="concentration-shown" class="w-5/6 p-4 bg-[#075640] hidden rounded-lg">
-                <div class="text-white">
-                    <table class="table-auto border-separate border-spacing-1 border-spacing-y-[20px]">
-                        <thead class="font-bold">
-                            <th>Complete</th>
-                            <th>Course</th>
-                            <th>Credits</th>
-                            <th>Prerequisites</th>
-                            <th>Grade</th>
-                        </thead>
-                        <tbody>
-                            <% concentrationCourses.forEach((c)=>{ %>
-                                <tr class="bg-white rounded-lg text-[#075640]">
-                                    <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
-                                    <td class="p-1 text-center"><%= c.classno %> - <%= c.name %></td>
-                                    <td class="p-1 text-center"><%= c.credits %></td>
-                                    <td class="p-1 text-center"><%= c.prereq ? c.prereq : "None" %></td>
-                                    <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
-                                </tr>
-                            <% }) %>
-                        </tbody>
-                    </table>
-                </div>
+            <div id="concentration-shown" class="w-5/6 p-4 bg-[#075640] hidden">
+                <h1>Concentration Dropdown</h1>
             </div>
         </div>
     </div>
     </div>
 </div>
 
-        <!-- JavaScript for GPA Calculation -->
-        <script>
-            const credits = document.querySelectorAll('.credits');
-            const grades = document.querySelectorAll('.grades');
 
-            credits.forEach(input => input.addEventListener('input', calculateGPA));
-            grades.forEach(input => input.addEventListener('input', calculateGPA));
-
-            function calculateGPA() {
-                let totalQualityPoints = 0;
-                let totalCredits = 0;
-
-                credits.forEach((creditInput, index) => {
-                    const credit = parseFloat(creditInput.value) || 0;
-                    const grade = grades[index].value;
-                    const qualityPoints = getQualityPoints(grade) * credit;
-
-                    totalQualityPoints += qualityPoints;
-                    totalCredits += credit;
-                });
-
-                document.getElementById('gpa').value = totalCredits ? (totalQualityPoints / totalCredits).toFixed(2) : 0; // Calculate GPA only
-            }
-
-            function getQualityPoints(grade) {
-                switch (grade.toUpperCase()) {
-                    case 'A': return 4.0;
-                    case 'B': return 3.0;
-                    case 'C': return 2.0;
-                    case 'D': return 1.0;
-                    case 'F': return 0.0;
-                    default: return 0.0; // Assume 0 for unrecognized grades
-                }
-            }
-        </script>
     </div>
 
 
@@ -242,3 +197,64 @@
 </div>
 <% } %>
 <script src="/js/index.js"></script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Select all grade input elements (ensure they have the class "grades")
+        const gradeElements = document.querySelectorAll('input[pattern="[ABCDF]"]'); // Target inputs for grades (those with pattern [ABCDF])
+        const projectedGpaDisplay = document.getElementById('projectedGPA');
+    
+        // Student's current GPA and completed credits
+        const studentGPA = <%= student.gpa || 0 %>; // Get the student's current GPA
+        const studentCredits = <%= student.credits || 0 %>; // Get the total credits the student has completed
+        console.log(studentCredits);
+    
+        // Function to calculate the projected GPA
+        function calculateProjectedGPA() {
+            let totalQualityPoints = 0;
+            let totalCredits = studentCredits;
+    
+            // Iterate over each grade input field
+            gradeElements.forEach((gradeElement) => {
+                const grade = gradeElement.value.toUpperCase(); // Get the grade input value
+                const creditElement = gradeElement.closest('tr').querySelector('.credits');
+                const credits = parseFloat(creditElement ? creditElement.innerText : 0) || 0;
+    
+                // Only calculate GPA if the grade is provided and the credits are valid
+                if (grade && credits) {
+                    const qualityPoints = getQualityPoints(grade) * credits;
+                    totalQualityPoints += qualityPoints;
+                    totalCredits += credits;
+                }
+            });
+    
+            // Include the student's current GPA and completed credits in the calculation
+            const currentQualityPoints = studentGPA * studentCredits;
+            totalQualityPoints += currentQualityPoints;
+    
+            // Calculate the updated GPA
+            const updatedGpa = totalCredits > 0 ? (totalQualityPoints / totalCredits).toFixed(2) : "0.00";
+            projectedGpaDisplay.innerText = updatedGpa;
+        }
+    
+        // Helper function for converting grades to quality points
+        function getQualityPoints(grade) {
+            switch (grade.toUpperCase()) {
+                case 'A': return 4.0;
+                case 'B': return 3.0;
+                case 'C': return 2.0;
+                case 'D': return 1.0;
+                case 'F': return 0.0;
+                default: return 0.0;
+            }
+        }
+    
+        // Add event listeners to grade input fields
+        gradeElements.forEach((gradeElement) => {
+            gradeElement.addEventListener('input', calculateProjectedGPA);
+        });
+    
+    });
+    </script>
+    
