@@ -15,10 +15,6 @@ const studentCourseSchema = new Schema({
     grade_obtained: {
         type: String,
         required: true
-    },
-    future_grade: {
-        type: String,
-        required: true
     }
 });
 

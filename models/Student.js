@@ -7,9 +7,9 @@ const studentSchema = new Schema({
         required: true
     },
     classification: {
-    type: String,
-    enum: ['Freshman', 'Sophomore', 'Junior', 'Senior'], 
-    required: true
+        type: String,
+        enum: ['Freshman', 'Sophomore', 'Junior', 'Senior'], 
+        required: true
     },
     studentid: {
         type: Number,
@@ -44,6 +44,11 @@ const studentSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    gpa: {
+        type: Number,
+        required: true
     }
 });
+
 module.exports = mongoose.model('Student', studentSchema);

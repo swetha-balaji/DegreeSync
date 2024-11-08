@@ -7,3 +7,8 @@ option {
 select:focus {
     outline: none;
 }
+
+.degree-completion {
+    border: solid 10px #075640;
+}
+

@@ -4,127 +4,90 @@
 </div>
 
 <% if (!whatif) { %>
-
-<div class="p-[20px]">
-    <!-- Student Information and Degree Completion Section -->
-    <div style="display: flex; justify-content: space-between; background-color: #e0e0e0; padding: 20px;">
-        <div>
-            <p><strong>Student Name :</strong> <%= student.student_name %></p>
-            <p><strong>Major:</strong> <%= student.major %></p>
-            <p><strong>Concentration:</strong> <%= student.concentration %></p>
-            <p><strong>Degree Type:</strong> <%= student.degree_type %></p>
-            <p><strong>Advisor:</strong> <%= student.advisor %></p>
-            <p><strong>Email:</strong> <%= student.email %></p>
-            <p><strong>Classification:</strong> <%= student.classification %></p>
-            <p><strong>Student ID:</strong> <%= student.studentid %></p>
-            <p><strong>Overall GPA:</strong> <input type="text" id="gpa" value="4.00" readonly style="border: none; background: transparent; width: 50px;"></p>
-        </div>
-        <div style="text-align: center;">
-            <div style="width: 100px; height: 100px; border-radius: 50%; background-color: lightgrey; display: inline-block; position: relative;">
-                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px;">50%</div>
+    <div class="w-full grid grid-cols-4 p-[20px]">
+        <div class="flex flex-col">
+            <h1 class="italic text-2xl">Degree Progress</h1>
+            <div class="flex items-center justify-evenly mt-4">
+                <div class="degree-completion flex justify-center items-center rounded-full max-w-[150px] max-h-[150px] h-[150px] w-[150px] mt-1">
+                    <h1 class="text-xl text-center font-semibold"><%= (parseFloat(student.credits / 120) * 100).toFixed(0) %>%<br>Complete</h1>
+                </div>
+                <div class="text-center text-[#075640]">
+                    <h1 class="text-2xl font-bold"><%= student.gpa.toFixed(2) %></h1>
+                    <h2 class="text-lg">Overall GPA</h2>
+                </div>
             </div>
-            <p>Degree Completion</p>
         </div>
-    </div>
+        <div class="col-span-3 flex flex-col justify-center gap-2">
+            <div id="comp-sci-dropdown" class="flex w-5/6 h-[125px] bg-[#075640] rounded-lg items-center hover:cursor-pointer">
+                <div class="flex flex-col w-full gap-2">
+                    <div class="flex items-center w-full">
+                        <div class="flex flex-1 gap-2 items-center text-white pl-3">
+                            <h1 class="text-2xl font-bold p-1">Major in Computer Science</h1>
+                            <h1 class="p-1 border-2 rounded-lg border-white">IN-PROGRESS</h1>
+                        </div>
+                        <i id="angle-1" class="fa-solid fa-angle-down pr-8 text-white text-2xl"></i>
+                    </div>
+                </div>
+            </div>
 
-    <!-- General Education and Major Information Section -->
-    <div style="padding: 20px;">
-        <h2>General Education:</h2>
-        <ul>
-            <li>✔ DEVELOPMENT OF FUNDAMENTAL SKILLS OF INQUIRY</li>
-            <li>✔ INQUIRY OF THE SCIENCES</li>
-            <li>✔ THEMES OF LIBERAL EDUCATION FOR PRIVATE AND PUBLIC LIFE</li>
-            <li>✔ CRITICAL THINKING AND COMMUNICATION</li>
-        </ul>
-        <h2>Major in Computer Science:</h2>
-        <ul>
-            <li>✔ CORE COURSES</li>
-            <li>✔ Communication Skills</li>
-        </ul>
-    </div>
+            <div id="comp-sci-shown" class="w-5/6 p-4 bg-[#075640] hidden rounded-lg">
+                <div class="text-white">
+                    <table class="table-auto border-separate border-spacing-1 border-spacing-y-[20px]">
+                        <thead class="font-bold">
+                            <th>Complete</th>
+                            <th>Course</th>
+                            <th>Credits</th>
+                            <th>Prerequisites</th>
+                            <th>Grade</th>
+                        </thead>
+                        <tbody>
 
-    <div>
-        <table class="table-fixed" style="width: 100%; text-align: left;">
-            <thead>
-                <tr style="font-weight: bold;">
-                    <th>Course</th>
-                    <th>Credit Hours</th>
-                    <th>Grade Obtained</th>
-                    <th>Future Grade</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% courses.forEach(course => { %>
-                    <tr>
-                        <td><%= course.name %></td>
-                        <td><%= course.credits %></td>
-                        <td><%= course.grade_obtained %></td>
-                        <td><%= course.future_grade %></td>
-                    </tr>
+                <% majorCourses.forEach((course)=>{ %>
+                    <% if (!course.is_capstone) { %>
+                        <tr class="bg-white rounded-lg text-[#075640]">
+                            <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
+                            <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
+                            <td class="p-1 text-center"><%= course.credits %></td>
+                            <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
+                            <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
+                        </tr>
+                    <% } %>
                 <% }) %>
-            </tbody>
-        </table>
+
+                <tr class="text-2xl text-center font-bold"><td class="text-nowrap">Capstone (Select one)</td></tr>
+                
+
+                <% majorCourses.forEach((course)=>{ %>
+                    <% if (course.is_capstone) { %>
+                                <tr class="bg-white rounded-lg text-[#075640]">
+                                    <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
+                                    <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
+                                    <td class="p-1 text-center"><%= course.credits %></td>
+                                    <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
+                                    <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
+                    <% } %>
+                <% }) %>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="concentration-dropdown" class="flex w-5/6 h-[125px] bg-[#075640] rounded-lg items-center hover:cursor-pointer">
+                <div class="flex flex-col w-full gap-2">
+                    <div class="flex items-center w-full">
+                        <div class="flex flex-1 gap-2 items-center text-white pl-3">
+                            <h1 class="text-2xl font-bold p-1">Concentration in <%= student.concentration %></h1>
+                            <h1 class="p-1 border-2 rounded-lg border-white">IN-PROGRESS</h1>
+                        </div>
+                        <i id="angle-2" class="fa-solid fa-angle-down pr-8 text-white text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div id="concentration-shown" class="w-5/6 p-4 bg-[#075640] hidden">
+                <h1>Concentration Dropdown</h1>
+            </div>
+        </div>
     </div>
-
-
-
-    <!-- Collapsible Sections for Courses with GPA Calculation Inputs -->
-    <div style="padding: 20px;">
-        <h2 onclick="toggleCollapse('coreCourses', this)" class="collapsible">Core Classes (Major in Computer Science) <span class="indicator">▼</span></h2>
-        <div id="coreCourses" class="collapsible-content">
-            <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
-                <h4>Core Course 1</h4>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
-                    <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
-                    <label style="color: #075640; margin-right: 5px;">Grade</label>
-                    <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
-                </div>
-            </div>
-            <!-- Additional core courses -->
-        </div>
-
-        <h2 onclick="toggleCollapse('cciElectives', this)" class="collapsible">CCI Elective Courses in Outside Disciplines <span class="indicator">▼</span></h2>
-        <div id="cciElectives" class="collapsible-content">
-            <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
-                <h4>Elective Course 1</h4>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
-                    <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
-                    <label style="color: #075640; margin-right: 5px;">Grade</label>
-                    <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
-                </div>
-            </div>
-            <!-- Additional elective courses -->
-        </div>
-
-        <h2 onclick="toggleCollapse('concentrationCourses', this)" class="collapsible">Concentration in <%= student.concentration %> <span class="indicator">▼</span></h2>
-        <div id="concentrationCourses" class="collapsible-content">
-            <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
-                <h4>Concentration Course 1</h4>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
-                    <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
-                    <label style="color: #075640; margin-right: 5px;">Grade</label>
-                    <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
-                </div>
-            </div>
-            <!-- Additional concentration courses -->
-        </div>
-
-        <h2 onclick="toggleCollapse('otherCourses', this)" class="collapsible">Other Courses <span class="indicator">▼</span></h2>
-        <div id="otherCourses" class="collapsible-content">
-            <div class="class-container" style="display: flex; justify-content: space-between; align-items: center;">
-                <h4>Other Course 1</h4>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <label style="color: #075640; margin-right: 5px;">Credit Hours</label>
-                    <input type="number" placeholder="" class="credits" style="width: 80px; background-color: darkgray; color: white;">
-                    <label style="color: #075640; margin-right: 5px;">Grade</label>
-                    <input type="text" placeholder="" class="grades" style="width: 80px; background-color: darkgray; color: white;">
-                </div>
-            </div>
-            <!-- Additional other courses -->
-        </div>
     </div>
 </div>
 
@@ -162,13 +125,6 @@
                     default: return 0.0; // Assume 0 for unrecognized grades
                 }
             }
-
-            function toggleCollapse(id, header) {
-                const content = document.getElementById(id);
-                const expanded = content.style.display === 'block';
-                content.style.display = expanded ? 'none' : 'block';
-                header.querySelector('.indicator').innerText = expanded ? '▼' : '▲';
-            }
         </script>
     </div>
 
@@ -203,49 +159,40 @@
     </style>
 </div>
 <% } else { %>
-    <div class="p-[20px] flex gap-4">
-        <div class="flex gap-2 items-center">
-            <i class="fa-solid fa-circle-check text-[#075640]"></i>
-            <h1 class="text-[#075640]">Completed</h1>
-        </div>
-        <div class="flex gap-2 items-center">
-            <i class="fa-solid fa-circle-half-stroke text-blue-800"></i>
-            <h1 class="text-[#075640]">In-progress</h1>
-        </div>
+<div class="p-[20px] flex gap-4">
+    <div class="flex gap-2 items-center">
+        <i class="fa-solid fa-circle-check text-[#075640]"></i>
+        <h1 class="text-[#075640]">Completed</h1>
     </div>
-    <div class="p-[20px] flex justify-center text-white">
-        <div class="w-11/12 bg-[#075640] rounded-lg p-4">
-            <h1 class="text-2xl font-semibold">Progress</h1>
-            <form action="/dashboard" method="get">
-                <div class="flex gap-4 p-2">
-                    <div>
-                        <p class="italic">Catalog Year *</p>
-                        <input disabled class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" value="2024-2025" />
-                    </div>
-                    <div>
-                        <p class="italic">Degree *</p>
-                        <input class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" type="text" disabled value="<%= student.degree_type === 'BS' ? 'Bachelor Of Science' : 'Bachelor of Arts'%>" />
-                    </div>
+    <div class="flex gap-2 items-center">
+        <i class="fa-regular fa-circle text-red-800"></i>
+        <h1 class="text-[#075640]">Incomplete</h1>
+    </div>
+</div>
+<div class="p-[20px] flex justify-center text-white">
+    <div class="w-11/12 bg-[#075640] rounded-lg p-4">
+        <h1 class="text-2xl font-semibold">Progress</h1>
+        <form action="/dashboard" method="get">
+            <div class="flex gap-4 p-2">
+                <div>
+                    <p class="italic">Catalog Year *</p>
+                    <input disabled class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" value="2024-2025" />
                 </div>
-                <div class="flex gap-4 p-2">
-                    <div>
-                        <p class="italic">Program *</p>
-                        <select class="px-2 py-2 w-[280px] rounded-lg bg-[#075640] border-2 border-white truncate">
-                            <option>AI, Robotics and Gaming - B.S.</option>
-                            <option>Bioinformatics - B.S.</option>
-                            <option>Cybersecurity - B.S.</option>
-                            <option>Data Science - B.S.</option>
-                            <option>Systems and Networks - B.S.</option>
-                            <option>Web/Mobile Development and Software Engineering - B.S.</option>
-                            <option>Human-Computer Interaction - B.A.</option>
-                            <option>Information Technology - B.A.</option>
-                            <option>Bioinformatics - B.A.</option>
-                        </select>
-                    </div>
-                    <div>
-                        <p class="italic">College *</p>
-                        <input class="px-4 py-2 w-[280px] rounded-lg border-2 border-white" type="text" disabled value="Computing & Informatics" />
-                    </div>
+            </div>
+            <div class="flex gap-4 p-2">
+                <div>
+                    <p class="italic">Program *</p>
+                    <select class="px-2 py-2 w-[280px] rounded-lg bg-[#075640] border-2 border-white truncate">
+                        <option>AI, Robotics and Gaming - B.S.</option>
+                        <option>Bioinformatics - B.S.</option>
+                        <option>Cybersecurity - B.S.</option>
+                        <option>Data Science - B.S.</option>
+                        <option>Systems and Networks - B.S.</option>
+                        <option>Web/Mobile Development and Software Engineering - B.S.</option>
+                        <option>Human-Computer Interaction - B.A.</option>
+                        <option>Information Technology - B.A.</option>
+                        <option>Bioinformatics - B.A.</option>
+                    </select>
                 </div>
                 <div class="flex p-2 justify-between items-end">
                     <div>
@@ -257,4 +204,6 @@
             </form>
         </div>
     </div>
+</div>
 <% } %>
+<script src="/js/index.js"></script>
