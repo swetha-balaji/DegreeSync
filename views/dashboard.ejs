@@ -33,7 +33,7 @@
                         <%= student.gpa ? student.gpa.toFixed(2) : "N/A" %>
                     </h1>
                     <h2 class="text-lg">Overall GPA</h2>
-                    <span id="projectedGPA" class="text-2xl font-bold">--</span>
+                    <span id="projectedGPA" class="text-2xl font-bold"><%= student.gpa.toFixed(2) %></span>
                     <h2 class="text-lg">Projected GPA</h2>
                 </div>
             </div>
@@ -108,7 +108,28 @@
                 </div>
             </div>
             <div id="concentration-shown" class="w-5/6 p-4 bg-[#075640] hidden">
-                <h1>Concentration Dropdown</h1>
+                <div class="text-white">
+                    <table class="table-auto border-separate border-spacing-1 border-spacing-y-[20px]">
+                        <thead class="font-bold">
+                            <th>Complete</th>
+                            <th>Course</th>
+                            <th>Credits</th>
+                            <th>Prerequisites</th>
+                            <th>Grade</th>
+                        </thead>
+                        <tbody>
+                            <% concentrationCourses.forEach((c)=>{ %>
+                                <tr class="bg-white rounded-lg text-[#075640]">
+                                    <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
+                                    <td class="p-1 text-center"><%= c.classno %> - <%= c.name %></td>
+                                    <td class="p-1 text-center"><%= c.credits %></td>
+                                    <td class="p-1 text-center"><%= c.prereq ? c.prereq : "None" %></td>
+                                    <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -208,7 +229,6 @@
         // Student's current GPA and completed credits
         const studentGPA = <%= student.gpa || 0 %>; // Get the student's current GPA
         const studentCredits = <%= student.credits || 0 %>; // Get the total credits the student has completed
-        console.log(studentCredits);
     
         // Function to calculate the projected GPA
         function calculateProjectedGPA() {
