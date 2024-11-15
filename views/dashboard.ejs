@@ -62,9 +62,8 @@
                             <th>Grade</th>
                         </thead>
                         <tbody>
-
                             <% majorCourses.forEach((course)=>{ %>
-                                <% if (course.is_capstone) { %>
+                                <% if (!course.is_capstone) { %>
                                     <tr class="bg-white rounded-lg text-[#075640]">
                                         <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
                                         <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
@@ -76,8 +75,6 @@
                                     </tr>
                                 <% } %>
                             <% }) %>
-                            
-
                 <tr class="text-2xl text-center font-bold"><td class="text-nowrap">Capstone (Select one)</td></tr>
                 
 
