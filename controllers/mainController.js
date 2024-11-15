@@ -119,17 +119,25 @@ exports.getDashboardPage = async(req, res)=>{
     try {
         let student = await Student.findOne({ studentid: req.session.userId }).exec();
 
-        let majorCourses = await Course.find({ is_core: true }).exec(); 
-        let concentrationCourses = await Course.find({ concentration: student.concentration }).exec();
-
+        let program = req.query.program || null;
         const whatif = req.query.whatif === 'true';
+
+        let majorCourses = await Course.find({ is_core: true }).exec();
+
+        let concentrationCourses;
+        if (program) {
+            concentrationCourses = await Course.find({ concentration: program.split('-')[0] }).exec();
+        } else {
+            concentrationCourses = await Course.find({ concentration: student.concentration }).exec();
+        }
 
         res.render('dashboard', {
             isAuthorized: true,
             student: student,
             majorCourses: majorCourses,
             concentrationCourses: concentrationCourses,
-            whatif: whatif 
+            whatif: whatif,
+            program: program
         });
 
     } catch (error) {

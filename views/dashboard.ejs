@@ -107,7 +107,7 @@
                     </div>
                 </div>
             </div>
-            <div id="concentration-shown" class="w-5/6 p-4 bg-[#075640] hidden">
+            <div id="concentration-shown" class="w-5/6 p-4 bg-[#075640] hidden rounded-lg">
                 <div class="text-white">
                     <table class="table-auto border-separate border-spacing-1 border-spacing-y-[20px]">
                         <thead class="font-bold">
@@ -133,42 +133,7 @@
             </div>
         </div>
     </div>
-    </div>
-</div>
-
-
-    </div>
-
-
-
-    <style>
-        .collapsible {
-            cursor: pointer;
-            padding: 10px;
-            border: 1px solid #ddd;
-            background-color: #075640;
-            color: white;
-            margin-top: 5px;
-            border-radius: 5px;
-        }
-
-        .collapsible-content {
-            display: none;
-            overflow: hidden;
-            padding: 10px 20px;
-            background-color: #075640;
-            border: 1px solid #ddd;
-        }
-
-        .class-container {
-            margin-top: 10px;
-            background-color: #e0e0e0;
-            padding: 10px;
-            border-radius: 5px;
-            color:#075640;
-        }
-    </style>
-</div>
+    <script src="/js/index.js"></script>
 <% } else { %>
 <div class="p-[20px] flex gap-4">
     <div class="flex gap-2 items-center">
@@ -180,10 +145,11 @@
         <h1 class="text-[#075640]">Incomplete</h1>
     </div>
 </div>
-<div class="p-[20px] flex justify-center text-white">
+<div class="p-[20px] flex flex-col gap-4 items-center text-white">
     <div class="w-11/12 bg-[#075640] rounded-lg p-4">
         <h1 class="text-2xl font-semibold">Progress</h1>
         <form action="/dashboard" method="get">
+            <input type="hidden" name="whatif" value="true" />
             <div class="flex gap-4 p-2">
                 <div>
                     <p class="italic">Catalog Year *</p>
@@ -193,16 +159,16 @@
             <div class="flex gap-4 p-2 items-end">
                 <div>
                     <p class="italic">Program *</p>
-                    <select class="px-2 py-2 w-[280px] rounded-lg bg-[#075640] border-2 border-white truncate">
-                        <option>AI, Robotics and Gaming - B.S.</option>
-                        <option>Bioinformatics - B.S.</option>
-                        <option>Cybersecurity - B.S.</option>
-                        <option>Data Science - B.S.</option>
-                        <option>Systems and Networks - B.S.</option>
-                        <option>Web/Mobile Development and Software Engineering - B.S.</option>
-                        <option>Human-Computer Interaction - B.A.</option>
-                        <option>Information Technology - B.A.</option>
-                        <option>Bioinformatics - B.A.</option>
+                    <select name="program" class="px-2 py-2 w-[280px] rounded-lg bg-[#075640] border-2 border-white truncate">
+                        <option <%= program == 'AI, Robotics and Gaming-B.S.' ? 'selected': '' %> value="AI, Robotics and Gaming-B.S.">AI, Robotics and Gaming - B.S.</option>
+                        <option <%= program == 'Bioinformatics-B.S.' ? 'selected': '' %> value="Bioinformatics-B.S.">Bioinformatics - B.S.</option>
+                        <option <%= program == 'Cybersecurity-B.S.' ? 'selected': '' %> value="Cybersecurity-B.S.">Cybersecurity - B.S.</option>
+                        <option <%= program == 'Data Science-B.S.' ? 'selected': '' %> value="Data Science-B.S.">Data Science - B.S.</option>
+                        <option <%= program == 'Systems and Networks-B.S.' ? 'selected': '' %> value="Systems and Networks-B.S.">Systems and Networks - B.S.</option>
+                        <option <%= program == 'Web/Mobile Development and Software Engineering-B.S.">Web/Mobile Development and Software Engineering-B.S.' ? 'selected': '' %> value="Web/Mobile Development and Software Engineering-B.S.">Web/Mobile Development and Software Engineering - B.S.</option>
+                        <option <%= program == 'Human Computer Interaction-B.A.' ? 'selected': '' %> value="Human Computer Interaction-B.A.">Human-Computer Interaction - B.A.</option>
+                        <option <%= program == 'Information Technology-B.A.' ? 'selected': '' %> value="Information Technology-B.A.">Information Technology - B.A.</option>
+                        <option <%= program == 'Bioinformatics-B.A.' ? 'selected': '' %> value="Bioinformatics-B.A.">Bioinformatics - B.A.</option>
                     </select>
                 </div>
                 <div class="flex justify-between items-end w-full">
@@ -215,9 +181,46 @@
             </form>
         </div>
     </div>
+    <% if (program) { %>
+        <div class="flex flex-col self-center gap-4 w-11/12">
+            <div id="whatif-dropdown" class="flex w-full h-[125px] bg-[#075640] rounded-lg items-center hover:cursor-pointer">
+                <div class="flex flex-col w-full gap-2">
+                    <div class="flex items-center w-full">
+                        <div class="flex flex-1 gap-2 items-center text-white pl-3">
+                            <h1 class="text-2xl font-bold p-1">Concentration in <%= program.split('-')[0] + ' - ' + program.split('-')[1] %></h1>
+                            <h1 class="p-1 border-2 rounded-lg border-white">WHAT-IF</h1>
+                        </div>
+                        <i id="whatif-angle" class="fa-solid fa-angle-down pr-8 text-white text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div id="whatif-shown" class="w-full p-4 bg-[#075640] hidden rounded-lg">
+                <div class="text-white">
+                    <table class="table-fixed w-full border-separate border-spacing-1 border-spacing-y-[20px]">
+                        <thead class="font-bold">
+                            <th>Complete</th>
+                            <th>Course</th>
+                            <th>Credits</th>
+                            <th>Prerequisites</th>
+                        </thead>
+                        <tbody>
+                            <% concentrationCourses.forEach((c)=>{ %>
+                                <tr class="bg-white rounded-lg text-[#075640]">
+                                    <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
+                                    <td class="p-1 text-center"><%= c.classno %> - <%= c.name %></td>
+                                    <td class="p-1 text-center"><%= c.credits %></td>
+                                    <td class="p-1 text-center"><%= c.prereq ? c.prereq : "None" %></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script src="/js/whatif.js"></script>
+    <% } %>
 </div>
 <% } %>
-<script src="/js/index.js"></script>
 
 
 <script>
