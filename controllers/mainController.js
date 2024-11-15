@@ -78,7 +78,7 @@ exports.register = async(req, res, next)=>{
         studentid: studentId,
         student_name: firstName + ' ' + lastName,
         credits: credits,
-        advisor: "Random Advisor",
+        advisor: "Qiong Cheng",
         concentration: conc,
         degree_type: degree,
         email: email,
