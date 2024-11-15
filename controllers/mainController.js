@@ -120,6 +120,7 @@ exports.getDashboardPage = async(req, res)=>{
     try {
         let student = await Student.findOne({ studentid: req.session.userId }).exec();
 
+
         let program = req.query.program || null;
         const whatif = req.query.whatif === 'true';
 
