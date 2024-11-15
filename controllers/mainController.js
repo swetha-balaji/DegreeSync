@@ -1,5 +1,6 @@
 const Student = require("../models/Student");
 const Course = require("../models/Course");
+const StudentCourse = require('../models/StudentCourse');
 
 // Constants used as lower and upper bounds for generating a student ID
 const MIN = 8080000000;
@@ -88,12 +89,12 @@ exports.register = async(req, res, next)=>{
 
     await newStudent.save()
     
-    generateStudentCourses(newStudent.classification, req.session.userId);
+    generateStudentCourses(newStudent.classification);
 
     res.redirect('/');
 }
 
-async function generateStudentCourses(classification, userId) {
+async function generateStudentCourses(classification) {
 
     switch (classification) {
         case 'Freshman':
