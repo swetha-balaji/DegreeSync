@@ -6,6 +6,11 @@ const courseSchema = new Schema({
         type: String,
         required: true
     },
+    level: {   
+        type: String,
+        enum: ['Intro', 'Intermediate', 'Advanced'],
+        required: true
+    },
     prereq: {
         type: String,
     },
