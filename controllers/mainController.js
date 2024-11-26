@@ -209,3 +209,4 @@ exports.logout = (req, res) => {
     res.clearCookie('sid');
     res.redirect('/');
 };
+
