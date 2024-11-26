@@ -1,3 +1,4 @@
+
 <div class="flex">
     <a href="/dashboard" class="py-2 text-center w-[125px] text-[#075640] font-bold <%= whatif ? '' : 'border-b-2 border-[#075640]' %> hover:bg-slate-100">Academic</a>
     <a href="/dashboard?whatif=true" class="py-2 text-center w-[125px] text-[#075640] font-bold <%= whatif ? 'border-b-2 border-[#075640]' : '' %> hover:bg-slate-100">What-if</a>
@@ -8,30 +9,13 @@
         <div class="flex flex-col">
             <h1 class="italic text-2xl">Degree Progress</h1>
             <div class="flex items-center justify-evenly mt-4">
-                <div style="
-                    width: 120px;
-                    height: 120px;
-                    border-radius: 50%;
-                    background: conic-gradient(#075640 <%= (parseFloat(student.credits / 120) * 100).toFixed(0) %>%, lightgrey <%= (parseFloat(student.credits / 120) * 100).toFixed(0) %>%);
-                    display: inline-block;
-                    position: relative;
-                ">
-                    <div style="
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        font-size: 20px;
-                        color: #FFFFFF;
-                        font-weight: bold;
-                    ">
+                <div style="width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(#075640 <%= (parseFloat(student.credits / 120) * 100).toFixed(0) %>%, lightgrey <%= (parseFloat(student.credits / 120) * 100).toFixed(0) %>%); display: inline-block; position: relative;">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px; color: #FFFFFF; font-weight: bold;">
                         <%= (parseFloat(student.credits / 120) * 100).toFixed(0) %>%
                     </div>
                 </div>
                 <div class="text-center text-[#075640]">
-                    <h1 class="text-2xl font-bold">
-                        <%= student.gpa ? student.gpa.toFixed(2) : "N/A" %>
-                    </h1>
+                    <h1 class="text-2xl font-bold"><%= student.gpa ? student.gpa.toFixed(2) : "N/A" %></h1>
                     <h2 class="text-lg">Overall GPA</h2>
                     <span id="projectedGPA" class="text-2xl font-bold"><%= student.gpa.toFixed(2) %></span>
                     <h2 class="text-lg">Projected GPA</h2>
@@ -63,34 +47,51 @@
                         </thead>
                         <tbody>
 
-                            <% majorCourses.forEach((course)=>{ %>
-                                <% if (course.is_capstone) { %>
+                            <% studentCourses.forEach((studentCourse) => { %>
+                                <% if (!studentCourse.course.is_capstone) { %> <!-- Exclude capstone courses -->
                                     <tr class="bg-white rounded-lg text-[#075640]">
-                                        <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
-                                        <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
-                                        <td class="p-1 text-center credits"><%= course.credits %></td> <!-- Credits column -->
-                                        <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
+                                        <!-- Completion status -->
                                         <td class="p-1 text-center">
-                                            <input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/>
+                                            <% if (studentCourse.completed) { %>
+                                                <i class="fa-solid fa-circle-check text-[#075640]"></i> <!-- Checkmark for completed -->
+                                            <% } else { %>
+                                                <i class="fa-regular fa-circle text-red-800"></i> <!-- Circle for in-progress -->
+                                            <% } %>
+                                        </td>
+                                        <!-- Course Number and Name -->
+                                        <td class="p-1 text-center"><%= studentCourse.course.classno %> - <%= studentCourse.course.name %></td>
+                                        <!-- Course Credits -->
+                                        <td class="p-1 text-center credits"><%= studentCourse.course.credits %></td>
+                                        <!-- Course Prerequisite -->
+                                        <td class="p-1 text-center"><%= studentCourse.course.prereq ? studentCourse.course.prereq : "None" %></td>
+                                        <!-- Grade Section -->
+                                        <td class="p-1 text-center">
+                                            <% if (studentCourse.completed) { %>
+                                                <%= studentCourse.grade %> <!-- Use 'grade' instead of 'grade_obtained' -->
+                                            <% } else { %>
+                                                <input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/> <!-- Allow grade input if not completed -->
+                                            <% } %>
                                         </td>
                                     </tr>
                                 <% } %>
                             <% }) %>
                             
+                            
+                            
 
-                <tr class="text-2xl text-center font-bold"><td class="text-nowrap">Capstone (Select one)</td></tr>
-                
+                            <tr class="text-2xl text-center font-bold"><td class="text-nowrap">Capstone (Select one)</td></tr>
 
-                <% majorCourses.forEach((course)=>{ %>
-                    <% if (course.is_capstone) { %>
-                                <tr class="bg-white rounded-lg text-[#075640]">
-                                    <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
-                                    <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
-                                    <td class="p-1 text-center"><%= course.credits %></td>
-                                    <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
-                                    <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
-                    <% } %>
-                <% }) %>
+                            <% majorCourses.forEach((course)=>{ %>
+                                <% if (course.is_capstone) { %>
+                                            <tr class="bg-white rounded-lg text-[#075640]">
+                                                <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
+                                                <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
+                                                <td class="p-1 text-center"><%= course.credits %></td>
+                                                <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
+                                                <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
+                                <% } %>
+                            <% }) %>
+                            
 
                         </tbody>
                     </table>
@@ -122,9 +123,11 @@
                                 <tr class="bg-white rounded-lg text-[#075640]">
                                     <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
                                     <td class="p-1 text-center"><%= c.classno %> - <%= c.name %></td>
-                                    <td class="p-1 text-center"><%= c.credits %></td>
+                                    <td class="p-1 text-center credits"><%= c.credits %></td> <!-- Credits column -->
                                     <td class="p-1 text-center"><%= c.prereq ? c.prereq : "None" %></td>
-                                    <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
+                                    <td class="p-1 text-center">
+                                        <input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/>
+                                    </td>
                                 </tr>
                             <% }) %>
                         </tbody>
@@ -134,7 +137,7 @@
         </div>
     </div>
     <script src="/js/index.js"></script>
-<% } else { %>
+    <% } else { %>
 <div class="p-[20px] flex gap-4">
     <div class="flex gap-2 items-center">
         <i class="fa-solid fa-circle-check text-[#075640]"></i>
@@ -279,5 +282,6 @@
         });
     
     });
-    </script>
+</script>
+    
     

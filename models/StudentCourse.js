@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const studentCourseSchema = new Schema({
-    inProgress: {
+    completed: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false // Indicates that by default, the course is not yet completed
     },
     student: {
         type: Schema.Types.ObjectId,
@@ -17,8 +18,8 @@ const studentCourseSchema = new Schema({
         required: true
     },
     grade_obtained: {
-        type: String,
-        required: true
+        type: String,  // Can be A, B, C, D, F, or null if not completed
+        required: false // grade is optional until the course is completed
     }
 });
 
