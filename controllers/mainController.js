@@ -181,8 +181,8 @@ exports.getDashboardPage = async (req, res) => {
         let majorCourses = await Course.find({ is_core: true }).exec();
 
         // Check if program is passed as query parameter, otherwise use student's concentration
-        const program = req.query.program || student.concentration;
-        let concentrationCourses = await Course.find({ concentration: program }).exec();
+        const program = req.query.program || student.concentration + '-' + student.degree_type.charAt(0) + '.' +  student.degree_type.charAt(1) + '.';
+        let concentrationCourses = await Course.find({ concentration: program.substring(0, program.indexOf('-')) }).exec();
 
         const whatif = req.query.whatif === 'true';
 
@@ -192,7 +192,8 @@ exports.getDashboardPage = async (req, res) => {
             majorCourses: majorCourses,
             concentrationCourses: concentrationCourses,
             studentCourses: studentCourses, // Pass studentCourses to the view
-            whatif: whatif
+            whatif: whatif,
+            program: program
         });
     } catch (error) {
         console.error("Error loading dashboard:", error);
