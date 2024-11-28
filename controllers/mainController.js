@@ -1,6 +1,9 @@
 const Student = require("../models/Student");
 const Course = require("../models/Course");
 const StudentCourse = require('../models/StudentCourse');
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
+const { imageLocation } = require("../utils/constants");
 
 // Constants used as lower and upper bounds for generating a student ID
 const MIN = 8080000000;
@@ -35,7 +38,7 @@ exports.login = async (req, res) => {
     if (email && password) {
         let student = await Student.findOne({ email: email, password: password }).exec();
         if (student) {
-            req.session.userId = student.studentid;
+            req.session.userId = student._id.toHexString();
             res.redirect('/dashboard');
             return;
         } else {
@@ -169,7 +172,7 @@ exports.getDashboardPage = async (req, res) => {
     }
 
     try {
-        let student = await Student.findOne({ studentid: req.session.userId }).exec();
+        let student = await Student.findOne({ _id: req.session.userId }).exec();
 
         // Retrieve all student courses with the course details populated
         let studentCourses = await StudentCourse.find({ student: student._id })
@@ -220,3 +223,47 @@ exports.logout = (req, res) => {
     res.redirect('/');
 };
 
+exports.studentReport = async (req, res) => {
+
+    if (!req.session.userId) {
+        return res.redirect('/');
+    }
+
+    const student = await Student.findOne({ _id: req.session.userId });
+
+    const doc = new PDFDocument();
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=degree_report.pdf');
+
+    doc.pipe(res);
+
+    const width = 150;
+    const height = 150;
+
+    const pageWidth = doc.page.width;
+
+    doc.image(imageLocation, pageWidth / 15, 0, {
+        width: width,
+        height: height
+    });
+
+    doc.font('Helvetica-Bold').fontSize(18).text('Degree Report', { align: "center"});
+    doc.moveDown();
+    doc.moveDown();
+    doc.moveDown();
+
+    doc.lineGap(3);
+
+    doc.fontSize(14).text(`Student: ${student.student_name}`);
+    doc.fontSize(14).text(`Student ID: ${student.studentid}`);
+    doc.fontSize(14).text(`Major: ${student.major}`);
+    doc.fontSize(14).text(`Degree Type: ${student.degree_type == 'BS' ? "Bachelor of Science" : "Bachelor of Arts" }`);
+    doc.fontSize(14).text(`Concentration: ${student.concentration}`);
+    doc.fontSize(14).text(`Credits: ${student.credits}`);
+    doc.fontSize(14).text(`GPA: ${student.gpa}`);
+
+    doc.end();
+
+    // TODO: Add a page and show courses that are still needed. AKA Degree Plan
+}
