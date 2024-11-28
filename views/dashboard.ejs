@@ -21,6 +21,9 @@
                     <h2 class="text-lg">Projected GPA</h2>
                 </div>
             </div>
+            <div class="flex justify-center mt-8">
+                <a href="/dashboard/student-report" download="degree_report.pdf" target="_blank" class="bg-[#075640] px-4 py-2 text-xl text-white rounded-lg">Generate Report</a>
+            </div>
         </div>    
         <div class="col-span-3 flex flex-col justify-center gap-2">
             <div id="comp-sci-dropdown" class="flex w-5/6 h-[125px] bg-[#075640] rounded-lg items-center hover:cursor-pointer">
@@ -43,6 +46,7 @@
                             <th>Course</th>
                             <th>Credits</th>
                             <th>Prerequisites</th>
+                            <th>Term</th>
                             <th>Grade</th>
                         </thead>
                         <tbody>
@@ -64,10 +68,18 @@
                                         <td class="p-1 text-center credits"><%= studentCourse.course.credits %></td>
                                         <!-- Course Prerequisite -->
                                         <td class="p-1 text-center"><%= studentCourse.course.prereq ? studentCourse.course.prereq : "None" %></td>
+                                        <!-- Term Section -->
+                                        <td class="p-1 text-center">
+                                            <% if (studentCourse.completed) { %>
+                                                <%= studentCourse.terms %>
+                                            <% } else { %>
+                                                N/A
+                                            <% } %>
+                                        </td>
                                         <!-- Grade Section -->
                                         <td class="p-1 text-center">
                                             <% if (studentCourse.completed) { %>
-                                                <%= studentCourse.grade %> <!-- Use 'grade' instead of 'grade_obtained' -->
+                                                <%= studentCourse.grade %>
                                             <% } else { %>
                                                 <input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/> <!-- Allow grade input if not completed -->
                                             <% } %>
@@ -88,6 +100,7 @@
                                                 <td class="p-1 text-center"><%= course.classno %> - <%= course.name %></td>
                                                 <td class="p-1 text-center"><%= course.credits %></td>
                                                 <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
+                                                <td class="p-1 text-center"><%= course.terms ? course.terms : "N/A" %></td>
                                                 <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
                                 <% } %>
                             <% }) %>
@@ -116,6 +129,7 @@
                             <th>Course</th>
                             <th>Credits</th>
                             <th>Prerequisites</th>
+                            <th>Term</th>
                             <th>Grade</th>
                         </thead>
                         <tbody>
@@ -125,6 +139,7 @@
                                     <td class="p-1 text-center"><%= c.classno %> - <%= c.name %></td>
                                     <td class="p-1 text-center credits"><%= c.credits %></td> <!-- Credits column -->
                                     <td class="p-1 text-center"><%= c.prereq ? c.prereq : "None" %></td>
+                                    <td class="p-1 text-center"><%= c.terms ? c.terms : "N/A" %></td>
                                     <td class="p-1 text-center">
                                         <input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/>
                                     </td>
@@ -205,6 +220,7 @@
                             <th>Course</th>
                             <th>Credits</th>
                             <th>Prerequisites</th>
+                            <th>Term</th>
                         </thead>
                         <tbody>
                             <% concentrationCourses.forEach((c)=>{ %>
@@ -213,6 +229,7 @@
                                     <td class="p-1 text-center"><%= c.classno %> - <%= c.name %></td>
                                     <td class="p-1 text-center"><%= c.credits %></td>
                                     <td class="p-1 text-center"><%= c.prereq ? c.prereq : "None" %></td>
+                                    <td class="p-1 text-center"><%= c.terms ? c.terms : 'N/A' %></td>
                                 </tr>
                             <% }) %>
                         </tbody>

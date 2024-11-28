@@ -95,7 +95,10 @@ function generateRandomGrade() {
     const grades = ['A', 'B', 'C'];
     return grades[Math.floor(Math.random() * grades.length)];
 }
-
+function generateRandomTerm() {
+    const terms = ['Spring 2023', 'Fall 2023', 'Spring 2024','Fall 2024'];
+    return terms[Math.floor(Math.random() * terms.length)];
+}
 async function generateStudentCourses(classification, studentId) {
     let student = await Student.findById(studentId); // Find student by ID
     let selectedCourses = [];
@@ -122,7 +125,8 @@ async function generateStudentCourses(classification, studentId) {
         default:
             console.log("Unknown classification: ", classification);
     }
-
+   
+    
     // Generate StudentCourse entries for each selected course
     for (let course of selectedCourses) {
         // Determine if the course is completed
@@ -139,8 +143,10 @@ async function generateStudentCourses(classification, studentId) {
 
         // If completed, assign a random grade
         let gradeObtained = '--';
+        let terms = '';
         if (completed) {
             gradeObtained = generateRandomGrade();
+            terms = generateRandomTerm();
         }
 
         // Create a new StudentCourse document with the specific course ID
@@ -149,7 +155,8 @@ async function generateStudentCourses(classification, studentId) {
             course: course._id, // Assign the actual course ID from the selected courses
             inProgress: !completed, // If not completed, course is still in progress
             completed: completed, // Set the completion status
-            grade_obtained: gradeObtained // Assign grade if completed
+            grade_obtained: gradeObtained, // Assign grade if completed
+            terms: terms
         });
 
         await studentCourse.save(); // Save the course for the student
@@ -174,7 +181,9 @@ exports.getDashboardPage = async (req, res) => {
             return {
                 course: studentCourse.course,
                 completed: studentCourse.completed,
-                grade: studentCourse.grade_obtained
+                grade: studentCourse.grade_obtained,
+                terms: studentCourse.terms
+                
             };
         });
 

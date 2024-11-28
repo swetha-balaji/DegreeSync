@@ -14,6 +14,9 @@ const courseSchema = new Schema({
     prereq: {
         type: String,
     },
+    terms: {
+        type: String,
+    },
     classno: {
         type: String,
         required: true,
