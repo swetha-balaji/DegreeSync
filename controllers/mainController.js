@@ -92,21 +92,16 @@ exports.register = async (req, res, next) => {
     res.redirect('/');
 };
 
-// Function to generate a random grade (A, B, C)
 function generateRandomGrade() {
     const grades = ['A', 'B', 'C'];
     return grades[Math.floor(Math.random() * grades.length)];
 }
-function generateRandomTerm() {
-    const terms = ['Spring 2023', 'Fall 2023', 'Spring 2024','Fall 2024'];
-    return terms[Math.floor(Math.random() * terms.length)];
-}
+
 async function generateStudentCourses(classification, studentId) {
     let student = await Student.findById(studentId); // Find student by ID
     let selectedCourses = [];
     let numberOfCourses = 0;
 
-    // Determine the number of courses based on the classification
     switch (classification) {
         case 'Freshman':
             numberOfCourses = Math.floor(Math.random() * 5) + 1; // 1 to 5 courses (Intro level)
@@ -129,9 +124,7 @@ async function generateStudentCourses(classification, studentId) {
     }
    
     
-    // Generate StudentCourse entries for each selected course
     for (let course of selectedCourses) {
-        // Determine if the course is completed
         let completed = false;
         if (classification === 'Freshman') {
             completed = Math.random() > 0.8; // Freshman have a lower chance of completing courses
@@ -143,25 +136,22 @@ async function generateStudentCourses(classification, studentId) {
             completed = Math.random() > 0.2; // Seniors have a very high chance
         }
 
-        // If completed, assign a random grade
         let gradeObtained = '--';
         let terms = '';
         if (completed) {
             gradeObtained = generateRandomGrade();
-            terms = generateRandomTerm();
         }
 
-        // Create a new StudentCourse document with the specific course ID
         const studentCourse = new StudentCourse({
             student: studentId,
-            course: course._id, // Assign the actual course ID from the selected courses
-            inProgress: !completed, // If not completed, course is still in progress
-            completed: completed, // Set the completion status
-            grade_obtained: gradeObtained, // Assign grade if completed
+            course: course._id,
+            inProgress: !completed,
+            completed: completed, 
+            grade_obtained: gradeObtained,
             terms: terms
         });
 
-        await studentCourse.save(); // Save the course for the student
+        await studentCourse.save();
     }
 }
 
@@ -173,19 +163,16 @@ exports.getDashboardPage = async (req, res) => {
     try {
         let student = await Student.findOne({ _id: req.session.userId }).exec();
 
-        // Retrieve all student courses with the course details populated
         let studentCourses = await StudentCourse.find({ student: student._id })
             .populate('course') // Populate the course details
             .exec();
 
-        // Map student courses to include course details, completed status, and grade
         studentCourses = studentCourses.map((studentCourse) => {
             return {
                 course: studentCourse.course,
                 completed: studentCourse.completed,
                 grade: studentCourse.grade_obtained,
-                terms: studentCourse.terms
-                
+                terms: studentCourse.terms 
             };
         });
 
@@ -202,7 +189,7 @@ exports.getDashboardPage = async (req, res) => {
             student: student,
             majorCourses: majorCourses,
             concentrationCourses: concentrationCourses,
-            studentCourses: studentCourses, // Pass studentCourses to the view
+            studentCourses: studentCourses,
             whatif: whatif,
             program: program
         });
@@ -229,7 +216,7 @@ exports.studentReport = async (req, res) => {
     }
 
     const student = await Student.findOne({ _id: req.session.userId });
-
+    const studentCourses = await StudentCourse.find({ student: student._id, completed: false }).populate('course');
     const doc = new PDFDocument();
 
     res.setHeader('Content-Type', 'application/pdf');
@@ -262,11 +249,25 @@ exports.studentReport = async (req, res) => {
     doc.fontSize(14).text(`Credits: ${student.credits}`);
     doc.fontSize(14).text(`GPA: ${student.gpa}`);
 
+    if (studentCourses.length > 0) {
+        doc.addPage()
+        doc.fontSize(18).text("Incomplete Courses", {align: "center"});
+        doc.moveDown()
+    }
+    studentCourses.forEach(sc=>{
+        if (!sc.completed) {
+            doc.fontSize(12).text("Course:");
+            doc.moveDown()
+            doc.fontSize(12).text(` -> Name: ${sc.course.classno} ${sc.course.name}`)
+            doc.moveDown()
+            doc.fontSize(12).text(` -> Credits: ${sc.course.credits}`)
+            doc.moveDown()
+        }
+    });
+
     doc.end();
 
-    // TODO: Add a page and show courses that are still needed. AKA Degree Plan
 }
-
 
 // Test Route
 exports.testSignup = async (req, res, next) => {

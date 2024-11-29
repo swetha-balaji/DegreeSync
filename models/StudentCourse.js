@@ -19,10 +19,6 @@ const studentCourseSchema = new Schema({
     },
     grade_obtained: {
         type: String,  // Can be A, B, C, D, F, or null if not completed
-        required: false // grade is optional until the course is completed
-    },
-    terms: {
-        type: String,
         required: false
     }
 });

@@ -16,7 +16,7 @@ router.post('/logout', logout);
 
 router.get('/dashboard/student-report', studentReport);
 
-// Test Route
+// Test Route for Jest
 router.post('/signup-test', testSignup);
 
 module.exports = router;
