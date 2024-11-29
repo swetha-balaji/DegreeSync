@@ -30,25 +30,20 @@ To set up the project locally, follow these steps:
     npm install
     ```
 
-3. **Environment Variables**:
-    Ensure that you set up the following environment variables in a `.env` file:
-    - `MONGO_URI` - The connection string for your MongoDB instance.
-
-4. **Start the application**:
+3. **Start the application**:
     You can start the server using the following command:
     ```bash
     npm start
     ```
     The application will be running at `http://localhost:3000`.
 
-5. **View in Browser**:
+4. **View in Browser**:
     Open your browser and go to `http://localhost:3000` to interact with the GPA calculator.
 
 ## Usage Details
 
 ### Authentication:
 - Users can log in with their email and password.
-- Passwords are securely stored using hashing (bcrypt).
 - Authenticated users can access GPA calculation features.
 
 ### GPA Calculation:
