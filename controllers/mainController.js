@@ -2,7 +2,6 @@ const Student = require("../models/Student");
 const Course = require("../models/Course");
 const StudentCourse = require('../models/StudentCourse');
 const PDFDocument = require('pdfkit');
-const fs = require('fs');
 const { imageLocation } = require("../utils/constants");
 
 // Constants used as lower and upper bounds for generating a student ID
@@ -29,7 +28,7 @@ exports.getHomePage = (req, res) => {
         res.redirect('/dashboard');
         return;
     }
-    res.render('index', { err: false, isAuthorized: false, student: undefined });
+    res.status(200).render('index', { err: false, isAuthorized: false, student: undefined });
 };
 
 exports.login = async (req, res) => {
@@ -42,7 +41,7 @@ exports.login = async (req, res) => {
             res.redirect('/dashboard');
             return;
         } else {
-            res.render('index', { err: true, isAuthorized: false, student: undefined });
+            res.status(400).render('index', { err: true, isAuthorized: false, student: undefined });
             return;
         }
     } else {
@@ -266,4 +265,39 @@ exports.studentReport = async (req, res) => {
     doc.end();
 
     // TODO: Add a page and show courses that are still needed. AKA Degree Plan
+}
+
+
+// Test Route
+exports.testSignup = async (req, res, next) => {
+    const { firstName, lastName, email, password, classification, concentration } = req.body;
+
+    let student = await Student.findOne({ email: email }).exec();
+    if (student) {
+        res.render('register', { isAuthorized: false, student: undefined, err: true });
+        return;
+    }
+
+    // Split concentration to determine BS or BA
+    let [conc, degree] = concentration.split('-');
+
+    let studentId = Math.floor(Math.random() * (MAX - MIN) + MIN);
+    let credits = generateCredits(classification);
+    let newStudent = await Student.create({
+        major: 'Computer Science',
+        classification: classification,
+        studentid: studentId,
+        student_name: firstName + ' ' + lastName,
+        credits: credits,
+        advisor: "Random Advisor",
+        concentration: conc,
+        degree_type: degree,
+        email: email,
+        password: password,
+        gpa: (Math.random() + 3.00).toFixed(2)
+    });
+
+    await newStudent.save();
+
+    res.redirect('/');
 }
