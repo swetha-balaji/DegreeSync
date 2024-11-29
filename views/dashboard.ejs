@@ -48,6 +48,7 @@
                             <th>Prerequisites</th>
                             <th>Term</th>
                             <th>Grade</th>
+                            <th>Repeated</th>
                         </thead>
                         <tbody>
 
@@ -84,13 +85,18 @@
                                                 <input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/> <!-- Allow grade input if not completed -->
                                             <% } %>
                                         </td>
+                                        <!--Repeated section -->
+                                        <td class="p-1 text-center">
+                                            <% if (studentCourse.completed) { %>
+                                                <%= "No" %>
+                                            <% } else { %>
+
+                                            <% } %>
+                                        </td>
                                     </tr>
                                 <% } %>
                             <% }) %>
                             
-                            
-                            
-
                             <tr class="text-2xl text-center font-bold"><td class="text-nowrap">Capstone (Select one)</td></tr>
 
                             <% majorCourses.forEach((course)=>{ %>
@@ -102,6 +108,7 @@
                                                 <td class="p-1 text-center"><%= course.prereq ? course.prereq : "None" %></td>
                                                 <td class="p-1 text-center"><%= course.terms ? course.terms : "N/A" %></td>
                                                 <td class="p-1 text-center"><input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/></td>
+                                                <td class="p-1 text-center"><%=  %></td>
                                 <% } %>
                             <% }) %>
                             
@@ -121,6 +128,8 @@
                     </div>
                 </div>
             </div>
+
+
             <div id="concentration-shown" class="w-5/6 p-4 bg-[#075640] hidden rounded-lg">
                 <div class="text-white">
                     <table class="table-auto border-separate border-spacing-1 border-spacing-y-[20px]">
@@ -131,24 +140,61 @@
                             <th>Prerequisites</th>
                             <th>Term</th>
                             <th>Grade</th>
+                            <th>Repeated</th>
                         </thead>
                         <tbody>
-                            <% concentrationCourses.forEach((c)=>{ %>
-                                <tr class="bg-white rounded-lg text-[#075640]">
-                                    <td class="p-1 text-center"><i class="fa-regular fa-circle text-red-800"></i></td>
-                                    <td class="p-1 text-center"><%= c.classno %> - <%= c.name %></td>
-                                    <td class="p-1 text-center credits"><%= c.credits %></td> <!-- Credits column -->
-                                    <td class="p-1 text-center"><%= c.prereq ? c.prereq : "None" %></td>
-                                    <td class="p-1 text-center"><%= c.terms ? c.terms : "N/A" %></td>
-                                    <td class="p-1 text-center">
-                                        <input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/>
-                                    </td>
-                                </tr>
+
+                            <% concentrationCourses.forEach((concentrationCourse) => { %>
+                                <% if (!concentrationCourse.course.is_capstone) { %> <!-- Exclude capstone courses -->
+                                    <tr class="bg-white rounded-lg text-[#075640]">
+                                        <!-- Completion status -->
+                                        <td class="p-1 text-center">
+                                            <% if (concentrationCourse.completed) { %>
+                                                <i class="fa-solid fa-circle-check text-[#075640]"></i> <!-- Checkmark for completed -->
+                                            <% } else { %>
+                                                <i class="fa-regular fa-circle text-red-800"></i> <!-- Circle for in-progress -->
+                                            <% } %>
+                                        </td>
+                                        <!-- Course Number and Name -->
+                                        <td class="p-1 text-center"><%= concentrationCourse.course.classno %> - <%= concentrationCourse.course.name %></td>
+                                        <!-- Course Credits -->
+                                        <td class="p-1 text-center credits"><%= concentrationCourse.course.credits %></td>
+                                        <!-- Course Prerequisite -->
+                                        <td class="p-1 text-center"><%= concentrationCourse.course.prereq ? concentrationCourse.course.prereq : "None" %></td>
+                                        <!-- Term Section -->
+                                        <td class="p-1 text-center">
+                                            <% if (concentrationCourse.completed) { %>
+                                                <%= concentrationCourse.terms %>
+                                            <% } else { %>
+                                                N/A
+                                            <% } %>
+                                        </td>
+                                        <!-- Grade Section -->
+                                        <td class="p-1 text-center">
+                                            <% if (concentrationCourse.completed) { %>
+                                                <%= concentrationCourse.grade %>
+                                            <% } else { %>
+                                                <input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/> <!-- Allow grade input if not completed -->
+                                            <% } %>
+                                        </td>
+                                        <!--Repeated section -->
+                                        <td class="p-1 text-center">
+                                            <% if (concentrationCourse.completed) { %>
+                                                <%= "No" %>
+                                            <% } else { %>
+
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                <% } %>
                             <% }) %>
+                            
+
                         </tbody>
                     </table>
                 </div>
             </div>
+
         </div>
     </div>
     <script src="/js/index.js"></script>
