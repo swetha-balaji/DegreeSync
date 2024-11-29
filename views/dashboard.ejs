@@ -53,7 +53,7 @@
                         <tbody>
 
                             <% studentCourses.forEach((studentCourse) => { %>
-                                <% if (!studentCourse.course.is_capstone) { %> <!-- Exclude capstone courses -->
+                                <% if (!studentCourse.course.is_capstone && studentCourse.course.is_core) { %> <!-- Exclude capstone courses -->
                                     <tr class="bg-white rounded-lg text-[#075640]">
                                         <!-- Completion status -->
                                         <td class="p-1 text-center">
@@ -72,7 +72,7 @@
                                         <!-- Term Section -->
                                         <td class="p-1 text-center">
                                             <% if (studentCourse.completed) { %>
-                                                <%= studentCourse.terms %>
+                                                <%= Math.random() < 0.5 ? 'Spring' : 'Fall' %>
                                             <% } else { %>
                                                 N/A
                                             <% } %>
@@ -82,7 +82,7 @@
                                             <% if (studentCourse.completed) { %>
                                                 <%= studentCourse.grade %>
                                             <% } else { %>
-                                                <input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/> <!-- Allow grade input if not completed -->
+                                                <input value="" placeholder="--" pattern="[ABCDF]" required class="w-[25px] text-center"/>
                                             <% } %>
                                         </td>
                                         <!--Repeated section -->
@@ -90,7 +90,7 @@
                                             <% if (studentCourse.completed) { %>
                                                 <%= "No" %>
                                             <% } else { %>
-
+                                                N/A
                                             <% } %>
                                         </td>
                                     </tr>
@@ -145,7 +145,7 @@
                         <tbody>
 
                             <% concentrationCourses.forEach((concentrationCourse) => { %>
-                                <% if (!concentrationCourse.course.is_capstone) { %> <!-- Exclude capstone courses -->
+                                <% if (!concentrationCourse.is_capstone) { %> <!-- Exclude capstone courses -->
                                     <tr class="bg-white rounded-lg text-[#075640]">
                                         <!-- Completion status -->
                                         <td class="p-1 text-center">
@@ -156,15 +156,15 @@
                                             <% } %>
                                         </td>
                                         <!-- Course Number and Name -->
-                                        <td class="p-1 text-center"><%= concentrationCourse.course.classno %> - <%= concentrationCourse.course.name %></td>
+                                        <td class="p-1 text-center"><%= concentrationCourse.classno %> - <%= concentrationCourse.name %></td>
                                         <!-- Course Credits -->
-                                        <td class="p-1 text-center credits"><%= concentrationCourse.course.credits %></td>
+                                        <td class="p-1 text-center credits"><%= concentrationCourse.credits %></td>
                                         <!-- Course Prerequisite -->
-                                        <td class="p-1 text-center"><%= concentrationCourse.course.prereq ? concentrationCourse.course.prereq : "None" %></td>
+                                        <td class="p-1 text-center"><%= concentrationCourse.prereq ? concentrationCourse.prereq : "None" %></td>
                                         <!-- Term Section -->
                                         <td class="p-1 text-center">
                                             <% if (concentrationCourse.completed) { %>
-                                                <%= concentrationCourse.terms %>
+                                                <%= Math.random() < 0.5 ? "Spring" : "Fall" %>
                                             <% } else { %>
                                                 N/A
                                             <% } %>
